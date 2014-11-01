@@ -1,0 +1,70 @@
+Version 0.3.0:
+	New Features:
+		New visualization: Pie chart
+		Added a "Count Unique" Aggregator that counts the number of unique values that an attribute has in a data set
+
+	Other Changes:
+		Major rewrite to clean up UI code.  Much easier to maintain and expand now.
+
+Version 0.2.2
+	New Features:
+		Calendar - Months are labeled
+		Calendar - Tooltip showing the aggregated value for a particular date
+		
+	Fixes:
+		Can now filter date attributes (e.g. Date At Least 2014-10-12)
+
+
+Version 0.2.1
+	New Features:
+		Data Info visualization which just displays info about all the columns in the data set
+		Calendar - Can be saved as an image
+
+	Fixes:
+		Fixed errors when loading settings from a URL that's set to correlogram (or other visualizations that don't have a Pivot Panel)
+		Back/forward previously functioned only every other button press
+		Speed-up due to a removed Redraw that occured when Advanced Options were open (for visualizations that don't need to vertically resize)
+		
+	Other Changes:
+		Correlogram - Color scale now defaults to "None"
+		Calendar - Renders considerably faster by using native Date calls instead of moment.js (seconds with large calendars)
+		Visualizations can now hide the Filter Panel and the Advanced Options Panel should they want to
+	
+	
+Version 0.2.0
+	New Features:
+		New Visualization: Correlogram integrated instead of separate app
+		New Visualization: Calendar view
+		Scroll bar now appears only on visualization and header stays pinned to top
+		Changelog appears when version is upgraded
+		Visualizations can be embedded into other websites (Pass the NoInterface URL parameter to hide the interface)
+		Mosaic - Mouseover tooltip with cell info (option that can be turned off)
+		Mosaic - Option for Size which defines size (relative to available screen real estate) of mosaic plots.  
+				 Size option includes "Auto" mode that decides size based on whether there is active horiz and/or vert tiling.
+		Correlogram - much faster (2x or more) than previous Correlation app
+		Correlogram - Includes an Automatic Size or Full Size option for the plots
+		Correlogram - Includes option for dark background
+		
+	Fixes: 
+		After using Mosaic mode, AggregatorType select options were displayed in a horizontal list instead of a vertical list
+		Errors happened if one of a visualization's advanced option wasn't present in that visualization's hash list
+		Redraw was getting called twice when hash was programmatically updated b/c it was triggering the hash changed event which also redraws
+		Visualization size is adjusted when Advanced Option panel are shown/hidden to prevent blank space at bottom of the screen.
+		Unique values for each attribute are now cached, speeding up processing by several seconds for long data sets.
+		Mosaic - Cell spacing was inconsistent in exploded mode
+		Mosiac - Color by row colored by visible row not overall row (i.e. colors incorrect when there are removed, empty cells)
+		Mosaic - Move tooltip position relative to cursor to keep it on screen
+		Mosaic - Columns height overflows container in non-exploded mode
+		Table - In Auto Format mode, should display as number instead of percent when AggregatorType is Count
+		Table - When showing as Percent of Row/Col and using Count aggregator, col/row totals were appearing as percents rather than decimals
+	
+	Other Changes:
+		Visualizations' DrawInit, Init, and UnInit functions can now be left undefined if they're not needed
+		Adding/removing visualizations is simpler (Just requires including in the HTML file; no other setup needed)
+		AggregatorPanelInit checks Visualization.AggregatorPanel.Aggregators for a list of aggregators to display
+		Mosaic - Exploded mode now set by default
+
+
+Version 0.1.0
+	Initial Version
+	

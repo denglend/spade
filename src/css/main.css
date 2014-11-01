@@ -1,0 +1,170 @@
+body {
+	margin-top:0px;
+	font-family:sans-serif;
+	overflow:hidden;
+}
+#MainDiv {
+	overflow:auto;
+}
+
+select {
+	display: inline;
+	width: auto;
+	margin: 0;
+	border: 1px solid #ccc;
+	padding: 2px;
+}
+
+
+#TileTable>tbody>tr>td {
+	vertical-align: top;
+	border: 1px solid black;
+}
+.TileTitleDiv {
+	text-decoration:underline;
+	color:#BBB;
+	font-size:.75em;
+	text-align:center;
+	width:100%;
+}
+
+.PivotHeading {
+	margin-top:2px;
+	margin-bottom:4px;
+	font-size:1.5em;
+}
+.PivotSubHeading {
+	margin-top:2px;
+	margin-bottom:4px;
+	font-size:1em;
+	font-weight:bold;
+}
+
+
+#HeaderDiv {
+	max-height:300px;
+	overflow:auto;
+	margin-bottom: 20px;
+	margin-top: 10px;
+	border-radius: 5px;
+	background-color:#f8f8f8;
+	border: 1px #BBB solid;
+}
+#HeaderDiv > div {
+	vertical-align:top;
+	display:inline-block;
+	padding-left:20px;
+	padding-right:20px;
+	padding-bottom:10px;
+
+}
+
+
+#AttributeContainerDiv {
+	max-width: 400px;
+}
+
+.AttributeSpan {
+	border-radius: 5px;
+	cursor:pointer;
+	padding:2px;
+	margin-left:4px;
+	margin-right:4px;
+	margin-bottom:2px;
+	float:left;
+	font-size:12px;
+
+}
+
+.AttributeNotSelected {
+	background-color:#88AAFF;
+}
+.AttributeSelected {
+	background-color:#88FFAA;
+}
+
+.PivotFilterGroup {
+	margin-bottom:2px;
+}
+
+.NewFilterPlus{
+    cursor: pointer;
+}
+.NewFilterMinus {
+    cursor: pointer;
+    margin-left: 3px;
+}
+
+
+
+.ArrowRight {
+	margin-top:8px;
+	border-top: 8px solid transparent;
+	border-bottom: 8px solid transparent;
+	border-left: 8px solid black;
+	
+}
+
+.Collapseable {
+	width: 0; 
+	height: 0; 
+	float:left;
+	cursor:pointer;
+}
+
+#AdvancedOptions {
+	display:inline-block;
+}
+#AdvancedOptionsHeadingDiv {
+	width:100%;
+	display:table-row;
+}
+
+#AdvancedOptionsHeading {
+	cursor:pointer;
+}
+
+#AdvancedOptionsPart2 {
+	max-width: 400px;
+	vertical-align:top;
+	display:inline-block;
+}
+
+#VisualizationAdvancedOptions {
+	max-width:400px;
+}
+
+#VisualizationAdvancedOptions div {
+	display:inline-block;
+	margin-left:4px;
+	margin-right:4px;
+	margin-top:2px;
+	margin-bottom:2px;
+}
+
+.ArrowDown {
+	margin-top:14px;
+
+	border-left: 8px solid transparent;
+	border-right: 8px solid transparent;
+	
+	border-top: 8px solid black;
+}
+
+
+.FakeHiddenNode {
+	position:absolute;
+	left:-100000000;
+}
+
+#ToolTipDiv {
+	visibility:hidden;
+	position:absolute;
+	z-index:10;
+	border: 1px solid #DDD;
+	background-color: rgba(200,200,200,.8);
+	padding: 5px;
+	border-radius:3px;
+}
+
+

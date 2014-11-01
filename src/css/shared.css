@@ -1,0 +1,209 @@
+			.Q0 { fill: rgb(215,25,28) !important; background-color: rgb(215,25,28);	}
+			.Q1 { fill: rgb(240,124,74) !important;	background-color: rgb(240,124,74); }
+			.Q2 { fill: rgb(253,201,128) !important;	background-color: rgb(253,201,128); }
+			.Q3 { fill: #FFFF66 !important;	background-color: #FFFF66;}
+			.Q4 { fill: rgb(195,229,134) !important;	background-color: rgb(195,229,134);}
+			.Q5 { fill: rgb(119,194,92) !important;	background-color: rgb(119,194,92);}
+			.Q6 { fill: rgb(26,150,65) !important;	background-color: rgb(26,150,65); }
+			.QNone { fill: none !important;}
+			
+			.GR6 { fill: rgb(215,25,28) !important;	background-color: rgb(215,25,28) ;}
+			.GR5 { fill: rgb(240,124,74) !important;	background-color: rgb(240,124,74) ;}
+			.GR4 { fill: rgb(253,201,128) !important;	background-color: rgb(253,201,128) ;}
+			.GR3 { fill: #FFFF66 !important;	background-color: #FFFF66 ;}
+			.GR2 { fill: rgb(195,229,134) !important;	background-color: rgb(195,229,134) ;}
+			.GR1 { fill: rgb(119,194,92) !important;	background-color: rgb(119,194,92) ;}
+			.GR0 { fill: rgb(26,150,65) !important;	background-color: rgb(26,150,65) ;}
+			.GRNone { fill: none !important;}
+
+			.B0 { fill: rgb(247,251,255) !important;background-color: rgb(247,251,255) ;}
+			.B1 { fill: rgb(215,230,244) !important;background-color: rgb(215,230,244) ;}
+			.B2 { fill: rgb(175,209,231) !important;background-color: rgb(175,209,231) ;}
+			.B3 { fill: rgb(114,178,215) !important;background-color: rgb(114,178,215) ;}
+			.B4 { fill: rgb(61,141,195) !important;background-color: rgb(61,141,195) ;}
+			.B5 { fill: rgb(21,98,169) !important;background-color: rgb(21,98,169) ;}
+			.B6 { fill: rgb(8,48,107) !important;background-color: rgb(8,48,107) ;}
+			.BNone { fill:none !important;}
+
+			.G0 { fill: rgb(255,255,255) !important;background-color: rgb(255,255,255) ;}
+			.G1 { fill: rgb(214,214,214) !important;background-color: rgb(214,214,214) ;}
+			.G2 { fill: rgb(170,170,170) !important;background-color: rgb(170,170,170) ;}
+			.G3 { fill: rgb(126,126,126) !important;background-color: rgb(126,126,126) ;}
+			.G4 { fill: rgb(84,84,84) !important;background-color: rgb(84,84,84) ;}
+			.G5 { fill: rgb(42,42,42) !important;background-color: rgb(42,42,42) ;}
+			.G6 { fill: rgb(0,0,0) !important;background-color: rgb(0,0,0) ;}
+			.GNone { fill:none !important;background-color:  ;}
+			
+			.T6 { fill: rgb(255,255,255) !important; fill-opacity:1;background-color: rgb(255,255,255) ;}
+			.T5 { fill: rgb(255,255,255) !important; fill-opacity:.85;background-color: rgb(255,255,255) ;}
+			.T4 { fill: rgb(255,255,255) !important; fill-opacity:.7;background-color: rgb(255,255,255) ;}
+			.T3 { fill: rgb(255,255,255) !important; fill-opacity:.53;background-color: rgb(255,255,255) ;}
+			.T2 { fill: rgb(255,255,255) !important; fill-opacity:.36;background-color: rgb(255,255,255) ;}
+			.T1 { fill: rgb(255,255,255) !important; fill-opacity:.17;background-color: rgb(255,255,255) ;}
+			.T0 { fill: rgb(255,255,255) !important; fill-opacity:0;background-color: rgb(255,255,255) ;}
+			.TNone { fill:none !important;}
+
+
+
+			.C0 { fill: #e41a1c !important;background-color: #e41a1c ;}
+			.C1 { fill: #ff7f00 !important;background-color: #ff7f00 ;}			
+			.C2 { fill: #4daf4a !important;background-color: #4daf4a ;}
+			.C3 { fill: #984ea3 !important;background-color: #984ea3 ;}
+			.C4 { fill: #377eb8 !important;background-color: #377eb8 ;}
+			.C5 { fill: #a65628 !important;background-color: #ffff33 ;}			
+			.C6 { fill: #ffff33 !important;background-color: #a65628 ;}			
+			.C7 { fill: #f781bf !important;background-color: #f781bf ;}
+			.C8 { fill: #8dd3c7 !important;background-color: #8dd3c7 ;}
+			.C9 { fill: #ffffb3 !important;background-color: #ffffb3 ;}
+			.C10 { fill: #bebada !important;background-color: #bebada ;}
+			.C11 { fill: #fb8072 !important;background-color: #fb8072 ;}
+			.C12 { fill: #80b1d3 !important;background-color: #80b1d3 ;}
+			.C13 { fill: #fdb462 !important;background-color: #fdb462 ;}
+			.C14 { fill: #b3de69 !important;background-color: #b3de69 ;}
+			.C15 { fill: #fccde5 !important;background-color: #fccde5 ;}
+			.C16 { fill: #d9d9d9 !important;background-color: #d9d9d9 ;}
+			.C17 { fill: #bc80bd !important;background-color: #bc80bd ;}
+			.C18 { fill: #ccebc5 !important;background-color: #ccebc5 ;}
+			.C19 { fill: #ffed6f !important;background-color: #ffed6f ;}
+			.CNone { fill:none !important;}			
+
+			
+			.N0 { fill:none !important;background-color:#FFFFFF;}
+			.N1 { fill:none !important;background-color:#FFFFFF;}
+			.N2 { fill:none !important;background-color:#FFFFFF;}
+			.N3 { fill:none !important;background-color:#FFFFFF;}
+			.N4 { fill:none !important;background-color:#FFFFFF;}
+			.N5 { fill:none !important;background-color:#FFFFFF;}
+			.N6 { fill:none !important;background-color:#FFFFFF;}
+			.NNone { fill:none !important;background-color:#FFFFFF;}			
+			
+			.BL0 { fill:black !important;background-color:black;}
+			.BL1 { fill:black !important;background-color:black;}
+			.BL2 { fill:black !important;background-color:black;}
+			.BL3 { fill:black !important;background-color:black;}
+			.BL4 { fill:black !important;background-color:black;}
+			.BL5 { fill:black !important;background-color:black;}
+			.BL6 { fill:black !important;background-color:black;}
+			.BL7 { fill:black !important;background-color:black;}
+			.BLNone {fill:none!important;}
+
+			.hidden {
+				display: none !important;
+			}
+
+.NoBorder {
+	border: 0px;
+}
+
+
+/* Custom Dropdown CSS from http://red-team-design.com/making-html-dropdowns-not-suck/ */
+
+.custom-dropdown--large {
+    font-size: 1.5em;
+}
+
+.custom-dropdown--small {
+    font-size: .7em;
+}
+
+.custom-dropdown__select{
+    font-size: inherit; /* inherit size from .custom-dropdown */
+    padding: .5em; /* add some space*/
+    margin: 0; /* remove default margins */
+}
+
+.custom-dropdown__select--white {
+    background-color: #fff;
+    color: #444;    
+}
+
+@supports (pointer-events: none) and
+      ((-webkit-appearance: none) or
+      (-moz-appearance: none) or
+      (appearance: none)) {
+
+    .custom-dropdown {
+        position: relative;
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .custom-dropdown__select {
+        padding-right: 2.5em; /* accommodate with the pseudo elements for the dropdown arrow */
+        border: 0;
+        border-radius: 3px;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;    
+		margin-left:5px;
+    }
+
+    .custom-dropdown::before,
+    .custom-dropdown::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+    }
+
+    .custom-dropdown::after { /*  Custom dropdown arrow */
+        content: "\25BC";
+        height: 1em;
+        font-size: .625em;
+        line-height: 1;
+        right: 1.2em;
+        top: 50%; margin-top: -.5em;
+    }
+
+    .custom-dropdown::before { /*  Custom dropdown arrow cover */
+        width: 2em;
+        right: 0; top: 0; bottom: 0;
+        border-radius: 0 3px 3px 0;
+    }
+
+    .custom-dropdown__select[disabled] {
+        color: rgba(0,0,0,.3);
+    }
+
+    .custom-dropdown.custom-dropdown--disabled::after {
+        color: rgba(0,0,0,.1);
+    }
+
+    /* White dropdown style */
+    .custom-dropdown--white::before {
+        top: .5em; bottom: .5em;
+        background-color: #fff;
+        border-left: 1px solid rgba(0,0,0,.1);
+    }
+
+    .custom-dropdown--white::after {
+        color: rgba(0,0,0,.9);
+    }
+
+    /* FF only temp fix */
+    @-moz-document url-prefix() {
+        .custom-dropdown__select             { padding-right: .9em }
+        .custom-dropdown--large .custom-dropdown__select { padding-right: 1.3em }
+        .custom-dropdown--small .custom-dropdown__select { padding-right: .5em }
+    }
+}
+
+
+.ModalPreDiv {
+	max-width:800px;
+	max-height:400px;
+	overflow:auto;
+	white-space: pre;
+	font-family:monospace;
+}
+.ModalAlertDiv {
+	max-width:300px;
+	max-height:300px;
+	overflow:none;
+}
+.ModalHeaderDiv {
+	text-align: center;
+	background-color: #DDD;
+	padding: 5px;
+	border-radius: 5px;
+	font-weight: bold;
+}

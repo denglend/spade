@@ -1,0 +1,45 @@
+.MosaicCellDiv {
+	display:inline-block;
+	width:100%;
+	margin:0;
+	padding:0;
+	opacity:0.9;
+	overflow:hidden;
+	font-size:16px;				/* Needed b/c MosaicColDiv has font-size of 0 to fix whitespace problem between divs */
+}
+.MosaicCellDiv:not(:last-child) {
+	border-bottom:1px solid black;
+}
+.MosaicCellDiv:hover {
+	opacity:1;
+}
+.MosaicExplodedCell {
+	margin-top:2px;
+	margin-bottom:2px;
+	border-bottom:none !important;
+}
+.MosaicCellDiv div {  /*Text label for cell */
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	text-align: center;	
+}
+	
+
+.MosaicColDiv {
+	display:inline-block;
+	vertical-align:top;
+	height:100%;
+	font-size:0px;				/* Solve problem of extra whitespace between inline-block divs */
+}
+.MosaicColTitleDiv {
+	display:inline-block;
+	text-align:center;
+	background-color:#EEE;
+	white-space: nowrap;
+	overflow:hidden;
+}
+.MosaicExplodedCol {
+	margin-left:0.25%;
+	margin-right:0.25%;
+}

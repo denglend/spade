@@ -1,0 +1,38 @@
+#TileTable .MainTable td {
+	border: 1px solid #DDD;
+	text-align:center;
+	cursor:default;
+	border-radius: 6px;
+}
+#TileTable .MainTable td.TotalTD {
+	border-radius: 0px;
+}
+#TileTable .MainTable td:first-child,table th {
+	border: none;
+	font-weight:bold;
+	cursor: default;
+}
+
+#TileTable .MainTable:not(.TableLegendTable) td:hover:not(:first-child) {
+	background-color:#DDF;
+}
+
+#TileTable .MainTable.NoBorder {
+	border-collapse:collapse;
+}
+#TileTable .MainTable.NoBorder td {
+	border: 0px;
+}
+
+#TileTable table.TableLegendTable {
+	margin-top:20px;
+}
+#TileTable table.TableLegendTable td:first-child {
+	min-width:15px;
+	border: 0px;
+}
+
+#TileTable table.TableLegendTable td {
+	border: 0px;
+	border-left: 1px solid #DDD;
+}

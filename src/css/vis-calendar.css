@@ -1,0 +1,49 @@
+.CalendarTable {
+	border-collapse:collapse;
+	margin-top:20px;
+}
+
+.CalendarTable td {
+	height:13px;
+	min-width:13px;
+	border: 1px dotted #DDD;
+}
+
+.CalendarTable .CalendarMonthTitleTR td {
+	border:none;
+}
+.CalendarTable .CalendarMonthText {
+	text-align:center;
+	border:none;
+}
+
+.CalendarTable td.CalendarMonthRight {
+	border-right: 1px solid black;
+}
+.CalendarTable td.CalendarMonthLeft {
+	border-left: 1px solid black;
+}
+
+.CalendarTable td.CalendarMonthTop {
+	border-top: 1px solid black;
+}
+
+.CalendarTable td.CalendarMonthBottom {
+	border-bottom: 1px solid black;
+}
+
+.CalendarTable td.CalendarInvisible {
+	border: 0px !important; 
+	visibility: hidden;
+}
+
+.CalendarTable td.CalendarYearTD {
+	border: 0px;
+}
+.CalendarTable div.CalendarYearDiv {
+	transform: translate(0,100%) rotate(-90deg);
+	transform-origin: 0 0;
+	width: 20px;
+	position: relative;
+	top: 58px;
+}

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+
+		</style>
+		<link rel="stylesheet" href="css/main.css" media="all" />
+		<link rel="stylesheet" href="css/vis-table.css" media="all" />
+		<link rel="stylesheet" href="css/vis-mosaic.css" media="all" />
+		<link rel="stylesheet" href="css/vis-calendar.css" media="all" />
+		<link rel="stylesheet" href="css/vis-pie.css" media="all" />
+		<link rel="stylesheet" href="css/shared.css" media="all" />
+	</head>
+	<body>
+		<input type="file" id="FileSelectInput" accept=".csv" style="display:none" onchange="LoadCustomDataSet(this.files)">
+		<div id="ToolTipDiv"></div>
+		<div id="HeaderDiv"><input type="text" id="DataSetSelect" style="display:none;"></input></div>
+		
+					
+		<div id="TitleDiv"></div>
+		<div id="DescriptionDiv"></div>
+		<div id="MainDiv"></div>
+		
+		<!-- Load all external libraries -->
+		<script src="libs/d3.min.js"></script>
+		<script src="libs/simple_statistics.js"></script>
+		<script src="libs/html2canvas.js"></script>
+		<script src="libs/colorbrewer.js"></script>
+		<script src="libs/picoModal.js"></script>
+		<script src="libs/moment.min.js"></script>
+		
+
+		<!-- Load all dependencies -->
+		<script src="core/util.js"></script>
+		<script src="core/events.js"></script>
+		<script src="core/draw.js"></script>
+		<script src="core/forms.js"></script>
+		<script src="core/calculate.js"></script>
+		<script src="core/data.js"></script>
+		
+		<!-- Load settings  -->
+		<script src="core/settings.js"></script>
+		
+		<!-- Load panels -->
+		<script src="panels/dataset.js"></script>
+		<script src="panels/visualization.js"></script>
+		<script src="panels/filter.js"></script>
+		<script src="panels/select.js"></script>
+		<script src="panels/split.js"></script>
+		<script src="panels/attribute.js"></script>
+		<script src="panels/aggregator.js"></script>
+		<script src="panels/advancedoptions.js"></script>
+		
+		<!-- Load visualizations -->
+		<script src="visualizations/table.js"></script>
+		<script src="visualizations/mosaic.js"></script>	
+		<script src="visualizations/correl.js"></script>	
+		<script src="visualizations/calendar.js"></script>	
+		<script src="visualizations/pie.js"></script>	
+		<script src="visualizations/datainfo.js"></script>	
+		
+		<!-- Initialize -->
+		<script src="core/main.js"></script>
+		
+		<script>
+		</script>
+	</body>
+</html>
