@@ -1,3 +1,12 @@
+Version 0.3.1:
+
+	Fixes:
+		Mosaic - Removed option to turn off exploded mode to make moot display issues in non-exploded mode.
+		
+	Other Changes:
+		Speed-up in date parsing - will be most evident in large data sets with lots of repeated dates
+
+
 Version 0.3.0:
 	New Features:
 		New visualization: Pie chart
