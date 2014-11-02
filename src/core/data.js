@@ -73,7 +73,7 @@ function CatalogData(Data) {
 				Globals.Catalog[CurKey].Percent = false;
 				if (Globals.Catalog[CurKey].Date) {
 					if (Globals.CachedDates[CurVal] !== undefined) {							//Cache dates for later b/c moment.js is slow
-						Globals.Catalog[CurKey].ParsedDates[i] = Globals.CachedDates[CurKey];
+						Globals.Catalog[CurKey].ParsedDates[i] = Globals.CachedDates[CurVal];
 					}
 					else {
 						var CurMoment = moment(CurVal);
