@@ -52,6 +52,7 @@ function CatalogData(Data) {
 	var Keys = Object.keys(Data[0]);
 	var i,j;
 	Globals.Catalog = {};
+	Globals.CachedDates = {};
 	for (i=0;i<Keys.length;i++) {				//Set up data to defaults
 		Globals.Catalog[Keys[i]] = {};
 		Globals.Catalog[Keys[i]].Numeric = true;
@@ -71,12 +72,18 @@ function CatalogData(Data) {
 				Globals.Catalog[CurKey].Numeric = false;
 				Globals.Catalog[CurKey].Percent = false;
 				if (Globals.Catalog[CurKey].Date) {
-					var CurMoment = moment(CurVal);
-					if ( !CurMoment.isValid()) {
-						Globals.Catalog[CurKey].Date = false;			//current value is not a date
+					if (Globals.CachedDates[CurVal] !== undefined) {							//Cache dates for later b/c moment.js is slow
+						Globals.Catalog[CurKey].ParsedDates[i] = Globals.CachedDates[CurKey];
 					}
-					else if (Globals.Catalog[CurKey].Date) {			//current value is a date, so save it for later in case the entire col is dates and we want to reformat
-						Globals.Catalog[CurKey].ParsedDates[i] = CurMoment.format("YYYY-MM-DD");
+					else {
+						var CurMoment = moment(CurVal);
+						if ( !CurMoment.isValid()) {
+							Globals.Catalog[CurKey].Date = false;			//current value is not a date
+						}
+						else if (Globals.Catalog[CurKey].Date) {			//current value is a date, so save it for later in case the entire col is dates and we want to reformat
+							Globals.Catalog[CurKey].ParsedDates[i] = CurMoment.format("YYYY-MM-DD");
+							Globals.CachedDates[CurVal] = Globals.Catalog[CurKey].ParsedDates[i];
+						}
 					}
 				}
 			}
