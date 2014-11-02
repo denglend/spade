@@ -9,6 +9,7 @@ var PivotSettings = {
 		DisplayAttribute: []
 	},
 	DataSets: [
+		{name: "DC Crime 2013",path:"../../sampledata/",file:"dc_crime_2013"},
 		{name: "Calendar Test",path:"../../sampledata/",file:"calendar_test",defaulthash:"a=Adj%20Close&b=0&c=3&k=(no%20split)&j=(no%20split)&g=calendar_test&h=Date&F0e=(any)&F0d=0&F0f=Adj%20Close&Va=0&l="},
 		{name: "Upload Data Set",file:"(upload)"}
 	],
