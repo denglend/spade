@@ -29,6 +29,9 @@ function VisualizationPanelUpdateFromHash(Hash) {
 	//Remove these next two lines when coding cleanup is ... cleaned up?
 	d3.select("#VisualizationType").node().value = Hash;
 	var Panel = MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel");
+	if (Panel.Options.CurVisualization != PivotSettings.Visualizations[Hash].name) {
+		d3.select("#VisualizationType").each(VisualizationChangeHandler);
+	}
 	Panel.Options.CurVisualization = PivotSettings.Visualizations[Hash].name;
 }
 
@@ -59,7 +62,12 @@ function VisualizationChangeHandlerNoRedraw(d,i) {
 	var AdvancedOptionsDiv = d3.select("#VisualizationAdvancedOptions");
 	var Panel = MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel");
 
+	Globals.IgnoreHashChangeVisChanging = true;
+	Globals.SuppressHistoryEntry = true;
 	document.location.hash = ReadHashFromSelectValues(true);
+	//testing
+	//location.replace("#"+ReadHashFromSelectValues(true));
+	//testing
 	Panel.Options.CurVisualization = PivotSettings.Visualizations[Visualization].name;
 	
 	PopulateForm();

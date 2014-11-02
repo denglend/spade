@@ -1,5 +1,5 @@
 /* globals d3,ReadSelectValues,CalculatePivotData,PivotSettings,ReadHashFromSelectValues,document,PivotObjectToArray,Globals,FilterData,
-   CreateDomElement,window,CatalogAddFilteredData */
+   CreateDomElement,window,CatalogAddFilteredData, location */
 
 function ResetMainDivHeight() {
 	return d3.select("#MainDiv").style("height",window.innerHeight - document.getElementById("MainDiv").offsetTop-4+"px");
@@ -43,7 +43,17 @@ function Redraw() {
 	}
 	
 	Globals.IgnoreHashChange = true;
-	document.location.hash = ReadHashFromSelectValues();
+	var NewHash = ReadHashFromSelectValues();
+	if (NewHash != document.location.hash)  {
+		if (Globals.SuppressHistoryEntry) {
+			location.replace("#" + ReadHashFromSelectValues());
+			Globals.SuppressHistoryEntry = false;
+		}
+		else {
+			document.location.hash = ReadHashFromSelectValues();
+		}
+
+	}
 	
 	var TileTableRows = MainDiv.append("table").attr("id","TileTable").append("tbody")
 		.selectAll("tr")

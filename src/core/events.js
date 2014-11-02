@@ -7,6 +7,9 @@ function SetEventHandlers() {
 		if (Globals.IgnoreHashChange) {
 			Globals.IgnoreHashChange = false;
 		}
+		else if (Globals.IgnoreHashChangeVisChanging) {
+			Globals.IgnoreHashChangeVisChanging = false;
+		}
 		else {
 			var OldVis = d3.select("#VisualizationType").node().value;
 			SetSelectValuesFromHash();

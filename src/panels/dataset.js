@@ -28,8 +28,6 @@ function DataSetPanelValuesToHash() {
 function DataSetPanelUpdateFromHash(Hash) {
 	d3.select("#DataSetSelect").node().value = Hash;
 	if (Hash !== MatchObjectInArray(PivotSettings.Panels,"name","DataSetPanel").Options.CurDataSet) {
-		
-		d3.select("#DataSetSelect").node().value = Hash;
 		d3.select("#DataSetSelect").each(DataSetChangeEvent);
 	}
 }
@@ -46,13 +44,13 @@ function DataSetPanelReset(Div,Visualization) {
 		.attr("value",function(d,i) {return d.name;})
 		.text(function(d) {return d.name;})
 		.each(function(d,i) { if (Panel.Options.CurDataSet == d.name) this.selected = true;});
-	if (CurDataSet !== Panel.Options.CurDataSet) Div.select("#DataSetSelect").each(DataSetChangeEvent);
 }
 
 //This function is called when the user choose a new option in the DataSet drop down box
 function DataSetChangeEvent() {
 	var Panel = MatchObjectInArray(PivotSettings.Panels,"name","DataSetPanel");
 	Panel.Options.CurDataSet = this.value;
+	Globals.IgnoreHashChange = true;
 	document.location.hash = PivotSettings.Panels.indexOf(GetPanel("DataSetPanel"))+"="+this.value;
 	
 	if (Panel.Options.CurDataSet === "Upload Data Set") {

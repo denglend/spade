@@ -23,6 +23,7 @@ function Initialize() {
 	var HashNum = PivotSettings.Panels.indexOf(GetPanel("DataSetPanel"));
 	var HashObj = ParseHash();
 	var DefaultFileName = PivotSettings.DataSets[0].name;
+	SetEventHandlers();
 	GetPanel("DataSetPanel").Functions.UpdatePanelFromHash(HashObj[HashNum] === undefined? DefaultFileName : HashObj[HashNum]);
 }
 
