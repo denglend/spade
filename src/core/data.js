@@ -70,12 +70,14 @@ function CatalogData(Data) {
 				Globals.Catalog[CurKey].NotNumericBecause = CurVal;
 				Globals.Catalog[CurKey].Numeric = false;
 				Globals.Catalog[CurKey].Percent = false;
-				var CurMoment = moment(CurVal);
-				if (Globals.Catalog[CurKey].Date && !CurMoment.isValid()) {			
-					Globals.Catalog[CurKey].Date = false;			//current value is not a date
-				}
-				if (Globals.Catalog[CurKey].Date) {			//current value is a date, so save it for later in case the entire col is dates and we want to reformat
-					Globals.Catalog[CurKey].ParsedDates[i] = CurMoment.format("YYYY-MM-DD");
+				if (Globals.Catalog[CurKey].Date) {
+					var CurMoment = moment(CurVal);
+					if ( !CurMoment.isValid()) {
+						Globals.Catalog[CurKey].Date = false;			//current value is not a date
+					}
+					else if (Globals.Catalog[CurKey].Date) {			//current value is a date, so save it for later in case the entire col is dates and we want to reformat
+						Globals.Catalog[CurKey].ParsedDates[i] = CurMoment.format("YYYY-MM-DD");
+					}
 				}
 			}
 			else { 													//current value is numeric
