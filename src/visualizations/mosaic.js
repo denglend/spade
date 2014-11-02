@@ -31,13 +31,12 @@ PivotSettings.Visualizations.push({
 				{type:"Select",id:"Size",title:"Size: ",vals:["Auto","1 x 1","1 x 2","2 x 1","2 x 2"]},
 				{type:"Check",id:"ShowText",title:"Show Text:",checked:true},
 				{type:"Check",id:"ShowTitle",title:"Show Titles:",checked:true},
-				{type:"Check",id:"Exploded",title:"Explode:",checked:true},
 				{type:"Check",id:"Tooltip",title:"Tooltip:",checked:true},
 				{type:"Text",id:"ColorMin",title:"Color Min:"},
 				{type:"Text",id:"ColorMax",title:"Color Max:"},
 				{type:"Button",id:"ExportImage",text:"Export Image",func:MosaicExportImage}
 			], 
-			HashNames: ["ColorScale","ShowText","ColorBy","ShowTitle","Exploded","Tooltip","Size","ColorMin","ColorMax"]
+			HashNames: ["ColorScale","ShowText","ColorBy","ShowTitle","Tooltip","Size","ColorMin","ColorMax"]
 		});
 
 /* ------------------------------------------------------------------------------------------------------------ */
@@ -120,8 +119,8 @@ function MosaicDraw(PivotObj,SelectVals,PivotArray,MainDiv) {
 		.enter()
 		.append("div")
 		.attr("class","MosaicColDiv")
-		.classed("MosaicExplodedCol",SelectVals.VisAdvancedOptions.MosaicExploded)
-		.style("width",function(d,i) {return d.Width*100-(SelectVals.VisAdvancedOptions.MosaicExploded ? 0.5 : 0)+"%";});
+		.classed("MosaicExplodedCol",true)
+		.style("width",function(d,i) {return d.Width*100- 0.5 +"%";});
 	
 
 	var AllValues = [];
@@ -130,7 +129,7 @@ function MosaicDraw(PivotObj,SelectVals,PivotArray,MainDiv) {
 		.enter()
 		.append("div")
 		.style("height",function(d,i) {
-			var h = d.showasval*100-(SelectVals.VisAdvancedOptions.MosaicExploded ? MarginPercent : 0);
+			var h = d.showasval*100- MarginPercent;
 			h = h < 0 ? 0 : h;
 			return h+"%";
 		})
@@ -167,7 +166,7 @@ function MosaicDraw(PivotObj,SelectVals,PivotArray,MainDiv) {
 			return "MosaicCellDiv "+PivotSettings.ColorScales[SelectVals.VisAdvancedOptions.MosaicColorScale].prefix+(ColNum%PivotSettings.NumberOfShades);
 		}
 	})
-	.classed("MosaicExplodedCell",SelectVals.VisAdvancedOptions.MosaicExploded);
+	.classed("MosaicExplodedCell",true);
 	
 	MosaicCells.filter(function(d) {return d.showasval ==="";}).remove();			//Remove any blank cells
 }
