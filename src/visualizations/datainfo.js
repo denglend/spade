@@ -19,7 +19,7 @@ PivotSettings.Visualizations.push({
 		});
 
 function DataInfoDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
-	
+	MainDiv.append("div").html("Number of Rows of Data: "+Globals.Data.length);
 	var HeaderData = ["Column Name", "Numeric",  "Percent",  "Date", "Non-Numeric Example",  "List of Values"];
 		
 	var Data = Object.keys(Globals.Catalog).map(function(a) {var b = Globals.Catalog[a]; b.Name = a; return b;});
