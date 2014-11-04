@@ -60,7 +60,7 @@ function AdvancedOptionsPanelUpdateFromHash(Hash) {
 	var Options = Hash.split(";");
 	d3.select("#HorizTileGroup select").node().value = Options[0];
 	d3.select("#VertTileGroup select").node().value = Options[1];
-	if (Options[2] !== "") {						//If there are no vis options present (e.g. b/c vis just changed), don't try to set any
+	if (Options[2] !== "" && Options[2] !== undefined) {						//If there are no vis options present (e.g. b/c vis just changed), don't try to set any
 		Options = Options[2].split(",");
 		for (var i = 0; i<Options.length; i++) {
 			var CurAdvancedOption = CurVis.AdvancedOptions[i];
