@@ -96,7 +96,8 @@ function ColorPanelValuesToHash() {
 function ColorPanelUpdateFromHash(Hash) {
 	var HashVals = Hash.split(";");
 	for (var i in HashVals) {
-		d3.select("#"+ColorPanelSettings.Elements[HashVals[i].slice(0,1)]).node().value = HashVals[i].slice(1);
+		var CurNode = d3.select("#"+ColorPanelSettings.Elements[HashVals[i].slice(0,1)]).node();
+		if (CurNode !== null) CurNode.value = HashVals[i].slice(1);
 	}
 }
 
