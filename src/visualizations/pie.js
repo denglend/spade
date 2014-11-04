@@ -6,7 +6,6 @@ PivotSettings.Visualizations.push({
 			name: "Pie",
 			Functions: {
 				DrawFunc:PieDraw,
-				InitFunc:PieInit,
 			},
 			Settings: {
 				RedrawOnVerticalResize: true,
@@ -23,24 +22,13 @@ PivotSettings.Visualizations.push({
 				},
 				AggregatorPanel: {},
 				FilterPanel: {},
-				AdvancedOptionsPanel: {}
+				AdvancedOptionsPanel: {},
+				ColorPanel: {ColorScale: true}
 			},
 			AdvancedOptions: [ 
-				{type:"Select",id:"ColorScale",title:"Color Scale: ",vals:[]}
-			],
-			HashNames: ["ColorScale"]
+			]
 		});
 
-function PieInit() {
-	d3.selectAll("#PieColorScale")							//Populate Color Scales
-			.selectAll("option")
-			.data(PivotSettings.ColorScales)
-			.enter().append("option")
-			.attr("value",function(d,i) {return i;})
-			.text(function(d) {return d.name;});
-
-
-}
 
 function PieDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
 	var CanvasWidth,CanvasHeight;
@@ -99,7 +87,7 @@ function PieDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
 			.attr("d", arc)
 			.attr("class", function(d) {
 				//return PivotSettings.ColorScales[SelectVals.VisAdvancedOptions.PieColorScale].prefix+Qizer(d.value);
-				return PivotSettings.ColorScales[SelectVals.VisAdvancedOptions.PieColorScale].prefix+Qizer(d.data.label);
+				return PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+Qizer(d.data.label);
 			})
 			.append("title").text(function(d) {return PivotSettings.Aggregators[SelectVals.AggregatorType].name+" "+SelectVals.AggregatorAttribute+": "+d.value;});
 

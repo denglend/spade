@@ -104,6 +104,14 @@
 	border: 0px;
 }
 
+.InlineOptionDiv {
+	display: inline-block;
+	margin-left: 4px;
+	margin-right: 4px;
+	margin-top: 2px;
+	margin-bottom: 2px;
+}
+
 
 /* Custom Dropdown CSS from http://red-team-design.com/making-html-dropdowns-not-suck/ */
 

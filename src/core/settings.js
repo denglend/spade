@@ -15,7 +15,7 @@ var PivotSettings = {
 		{name: "Upload Data Set",file:"(upload)"}
 	],
 	ColorScales: [ 
-		{name: "Green-Blue", prefix: "YB", js:"YlGnBl"},
+		{name: "Green-Blue", prefix: "YB", js:"YlGnBu"},
 		{name: "Blues", prefix: "B",js:"Blues" },
 		{name: "Red-Green", prefix:"Q",js:"RdYlGn" },
 		{name: "Green-Red", prefix:"GR", js:"GnYlRd"},

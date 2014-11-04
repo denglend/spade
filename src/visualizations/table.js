@@ -4,7 +4,6 @@
 PivotSettings.Visualizations.push({
 			name: "Table", 
 			Functions: {
-				InitFunc:TableInit,
 				DrawFunc: TableDraw
 			},
 			Settings: {
@@ -16,7 +15,6 @@ PivotSettings.Visualizations.push({
 				{type:"Select",id:"NumberFormat",title:"Format: ",vals:["Auto","Number","Percent"]},
 				{type:"Select",id:"NumberPlaces",title:"Places: ",vals:[0,1,2]},
 				{type:"Select",id:"NumberShowAs",title:"Show As: ",vals:["(normal)","Percent of Row","Percent of Column","Percent of Grand Total","Diff From Row","Diff From Column","Diff From Grand Total"]},
-				{type:"Select",id:"ColorScale",title:"Color Scale: ",vals:[]},
 				{type:"Check",id:"ShowText",title:"Show Text:",checked:true},
 				{type:"Check",id:"ShowHeaders",title:"Show Headers:",checked:true},
 				{type:"Check",id:"ShowLegend",title:"Show Legend:",checked:true},
@@ -35,21 +33,14 @@ PivotSettings.Visualizations.push({
 				},
 				AggregatorPanel: {},
 				FilterPanel: {},
-				AdvancedOptionsPanel: {}
+				AdvancedOptionsPanel: {},
+				ColorPanel: {ColorScale: true}
 			},
-			HashNames: ["ColorScale","NumberFormat","NumberPlaces","NumberShowAs","ShowText","ShowHeaders","ShowLegend","ShowTotals"] //Values to save in hash
+			HashNames: ["NumberFormat","NumberPlaces","NumberShowAs","ShowText","ShowHeaders","ShowLegend","ShowTotals"] //Values to save in hash
 		});
 
 /* ------------------------------------------------------------------------------------------------------------ */
 
-function TableInit() {
-	d3.selectAll("#TableColorScale")
-			.selectAll("option")
-			.data(PivotSettings.ColorScales)
-			.enter().append("option")
-			.attr("value",function(d,i) {return i;})
-			.text(function(d) {return d.name;});
-}
 
 
 function TableDraw(PivotObj,SelectVals,PivotArray,MainDiv) {
@@ -198,7 +189,7 @@ function TableDraw(PivotObj,SelectVals,PivotArray,MainDiv) {
 	var Qizer = GenerateQizer(AllValues);
 	MainDiv.selectAll("tbody tr:not(:last-child) td:not(:last-child):not(:first-child)").each(function(d,i) {
 		if (d.showasval !=="") {
-			this.className += " "+PivotSettings.ColorScales[SelectVals.VisAdvancedOptions.TableColorScale].prefix+Qizer(d.showasval);
+			this.className += " "+PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+Qizer(d.showasval);
 			var BGColor = d3.select(this).style("background-color").match(/[0-9]{1,3}/g);
 			if (Math.sqrt(0.241*BGColor[0]*BGColor[0] + 0.691*BGColor[1]*BGColor[1] + 0.068*BGColor[2]*BGColor[2] ) < 130) {
 				d3.select(this).style("color","white");
@@ -289,7 +280,7 @@ function TableDraw(PivotObj,SelectVals,PivotArray,MainDiv) {
 		TableRows.selectAll("td")
 			.data(function(row) {
 				return [
-					{classname: PivotSettings.ColorScales[SelectVals.VisAdvancedOptions.TableColorScale].prefix+row},
+					{classname: PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+row},
 					{text:TableFormatNumber(domain[Qizer.range().indexOf(row)],SelectVals.AggregatorAttribute)}];
 			})
 			.enter()

@@ -7,7 +7,6 @@ PivotSettings.Visualizations.push({
 			Functions: {
 				DrawFunc:CalendarDraw,
 				DrawInitFunc:CalendarDrawInit,
-				InitFunc:CalendarInit
 			},
 			Settings: {
 				RedrawOnVerticalResize: false,
@@ -24,26 +23,16 @@ PivotSettings.Visualizations.push({
 				VisualizationPanel: {},				
 				AggregatorPanel: {},
 				FilterPanel: {},
-				AdvancedOptionsPanel: {}
+				AdvancedOptionsPanel: {},
+				ColorPanel: {ColorScale: true}
 			},
-			AdvancedOptions: [ 
-				{type:"Select",id:"ColorScale",title:"Color Scale: ",vals:[]},
+			AdvancedOptions: [
 				{type:"Button",id:"ExportImage",text:"Export Image",func:CalendarExportImage}
-			],
-			HashNames: ["ColorScale"]
+			]
 		});
 
 /* ------------------------------------------------------------------------------------------------------------ */
 
-function CalendarInit() {
-	d3.selectAll("#CalendarColorScale")							//Populate Color Scales
-			.selectAll("option")
-			.data(PivotSettings.ColorScales)
-			.enter().append("option")
-			.attr("value",function(d,i) {return i;})
-			.text(function(d) {return d.name;});
-
-}
 
 function CalendarDrawInit(SelectVals) {
 	if (SelectVals.Split1Attribute === "") {
@@ -126,7 +115,7 @@ function CalendarDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
 
 	TableCells.attr("class",function(d) {
 		if (d.Val === undefined) return this.className;
-		return this.className+" "+PivotSettings.ColorScales[SelectVals.VisAdvancedOptions.CalendarColorScale].prefix+Qizer(d.Val);
+		return this.className+" "+PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+Qizer(d.Val);
 	});
 
 	//Add Year text

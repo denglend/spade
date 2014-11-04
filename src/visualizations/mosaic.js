@@ -4,7 +4,6 @@ PivotSettings.Visualizations.push({
 			name: "Mosaic", 
 			Functions: {
 				DrawFunc: MosaicDraw, 				//Called to draw mosaic
-				InitFunc: MosaicInit,				//Called when visualization is changed to mosaic
 				DrawInitFunc: MosaicDrawInit		//Called before drawing starts (i.e. will only be called once even if screen is tiled w/many mosaics)
 			},
 			Settings: {
@@ -23,11 +22,13 @@ PivotSettings.Visualizations.push({
 					Aggregators: ["Count","Sum"]
 				},
 				FilterPanel: {},
-				AdvancedOptionsPanel: {}
+				AdvancedOptionsPanel: {},
+				ColorPanel: {
+					ColorScale: true,
+					ColorBy: ["Column","Row"]
+				}
 			},
 			AdvancedOptions: [
-				{type:"Select",id:"ColorScale",title:"Color Scale: ",vals:[]},
-				{type:"Select",id:"ColorBy",title:"Color By: ",vals:["Column","Row"]},
 				{type:"Select",id:"Size",title:"Size: ",vals:["Auto","1 x 1","1 x 2","2 x 1","2 x 2"]},
 				{type:"Check",id:"ShowText",title:"Show Text:",checked:true},
 				{type:"Check",id:"ShowTitle",title:"Show Titles:",checked:true},
@@ -36,22 +37,10 @@ PivotSettings.Visualizations.push({
 				{type:"Text",id:"ColorMax",title:"Color Max:"},
 				{type:"Button",id:"ExportImage",text:"Export Image",func:MosaicExportImage}
 			], 
-			HashNames: ["ColorScale","ShowText","ColorBy","ShowTitle","Tooltip","Size","ColorMin","ColorMax"]
+			HashNames: ["ShowText","ShowTitle","Tooltip","Size","ColorMin","ColorMax"]
 		});
 
 /* ------------------------------------------------------------------------------------------------------------ */
-
-function MosaicInit() {
-	d3.selectAll("#MosaicColorScale")							//Populate Color Scales
-			.selectAll("option")
-			.data(PivotSettings.ColorScales)
-			.enter().append("option")
-			.attr("value",function(d,i) {return i;})
-			.text(function(d) {return d.name;});
-
-}
-
-
 
 function MosaicDrawInit() {
 	//Set TableSelectVals to calculate as percent of col
@@ -157,13 +146,12 @@ function MosaicDraw(PivotObj,SelectVals,PivotArray,MainDiv) {
 	}
 		
 	MosaicCells.attr("class",function(d,i) {							//Add cell class and colors
-		if (SelectVals.VisAdvancedOptions.MosaicColorBy == "Row") {
-			//return "MosaicCellDiv "+PivotSettings.ColorScales[SelectVals.VisAdvancedOptions.MosaicColorScale].prefix+(i%PivotSettings.NumberOfShades);
-			return "MosaicCellDiv "+PivotSettings.ColorScales[SelectVals.VisAdvancedOptions.MosaicColorScale].prefix+Qizer(d.row);
+		if (SelectVals.ColorPanelColorBy == "Row") {
+			return "MosaicCellDiv "+PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+Qizer(d.row);
 		}
 		else {
 			var ColNum = d3.select(this.parentNode).datum().ColNum;
-			return "MosaicCellDiv "+PivotSettings.ColorScales[SelectVals.VisAdvancedOptions.MosaicColorScale].prefix+(ColNum%PivotSettings.NumberOfShades);
+			return "MosaicCellDiv "+PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+(ColNum%PivotSettings.NumberOfShades);
 		}
 	})
 	.classed("MosaicExplodedCell",true);

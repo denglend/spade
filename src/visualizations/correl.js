@@ -4,8 +4,7 @@
 PivotSettings.Visualizations.push({
 			name: "Correlogram",
 			Functions: {
-				DrawFunc:CorrelDraw,
-				InitFunc:CorrelInit
+				DrawFunc:CorrelDraw
 			},
 			Settings: {
 				RedrawOnVerticalResize: false,
@@ -16,19 +15,21 @@ PivotSettings.Visualizations.push({
 				DataSetPanel: {},
 				VisualizationPanel: {},				
 				FilterPanel: {},
-				AdvancedOptionsPanel: {}
+				AdvancedOptionsPanel: {},
+				ColorPanel: {
+					ColorBy: true,
+					ColorScale: true,
+					Opacity: true
+				}
 			},
-			AdvancedOptions: [ 
-				{type:"Select",id:"ColorScale",title:"Color Scale: ",vals:[]},
-				{type:"Select",id:"Opacity",title:"Opacity: ",vals:["Auto","100%","75%","50%","25%","10%"]},
-				{type:"Select",id:"ColorBy",title:"Color By: ",vals:[]},
+			AdvancedOptions: [
 				{type:"Select",id:"Size",title:"Size: ",vals:["Auto","Full"]},
 				{type:"Check",id:"ShowStatistics",title:"Show Statistics:",checked:false},
 				{type:"Check",id:"ShowLine",title:"Show Line:",checked:false},
 				{type:"Check",id:"DarkBackground",title:"Dark Background:",checked:false},
 				{type:"Button",id:"ExportImage",text:"Export Image",func:CorrelExportImage}
 			],
-			HashNames: ["ColorScale","Opacity","ColorBy","Size","ShowStatistics","ShowLine","DarkBackground"]
+			HashNames: ["Size","ShowStatistics","ShowLine","DarkBackground"]
 		});
 
 var CorrelSettings = {
@@ -74,26 +75,6 @@ var CorrelGlobals = {
 
 /* ------------------------------------------------------------------------------------------------------------ */
 
-function CorrelInit() {
-	d3.selectAll("#CorrelogramColorScale")							//Populate Color Scales
-			.selectAll("option")
-			.data(PivotSettings.ColorScales)
-			.enter().append("option")
-			.attr("value",function(d,i) {return i;})
-			.attr("data-name",function(d,i) {return d.name;})
-			.text(function(d) {return d.name;});
-	d3.selectAll("#CorrelogramColorScale option[data-name='None']").node().selected = true;
-	
-	d3.selectAll("#CorrelogramColorBy")							//Populate Color Scales
-		.selectAll("option")
-		.data(Object.keys(Globals.Data[0])
-		.filter(function(el) { 
-			return PivotSettings.HiddenAttributes.FilterAttributeSelect.indexOf(el.toUpperCase()) == -1;
-		}).sort())
-		.enter().append("option")
-		.attr("value",function(d,i) {return d;})
-		.text(function(d) {return d;});
-}
 
 function CorrelDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
 	var HorizSizeDivisor;
@@ -154,11 +135,11 @@ function CalculateCorrelGlobals(FilteredData,SelectVals) {
 	CorrelGlobals.RowHeight = (CorrelGlobals.BoxSize+CorrelSettings.StatsBoxHeight);					//The height of each row of the plot
 	CorrelGlobals.Scales = CorrelCreateScales(Globals.CurAttributes,FilteredData);
 	CorrelGlobals.Axes = CorrelCreateAxes();
-	CorrelGlobals.Qizer = GenerateQizer(FilteredData.map(function(d) {return d[SelectVals.VisAdvancedOptions.CorrelogramColorBy];}));
-	CorrelGlobals.ColorVar = colorbrewer[PivotSettings.ColorScales[SelectVals.VisAdvancedOptions.CorrelogramColorScale].js][PivotSettings.NumberOfShades];
-	CorrelGlobals.ColorAttribute = SelectVals.VisAdvancedOptions.CorrelogramColorBy;
+	CorrelGlobals.Qizer = GenerateQizer(FilteredData.map(function(d) {return d[SelectVals.ColorPanelColorBy];}));
+	CorrelGlobals.ColorVar = colorbrewer[PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].js][PivotSettings.NumberOfShades];
+	CorrelGlobals.ColorAttribute = SelectVals.ColorPanelColorBy;
 	
-	CorrelGlobals.Opacity = SelectVals.VisAdvancedOptions.CorrelogramOpacity;
+	CorrelGlobals.Opacity = SelectVals.ColorPanelOpacity;
 	if (CorrelGlobals.Opacity =="Auto") {
 		CorrelGlobals.Opacity = 60.8*Math.pow(FilteredData.length,-0.95);			//Exponential Regression says this should be about right
 		if (CorrelGlobals.Opacity > CorrelSettings.AutoOpacityMax) CorrelGlobals.Opacity = CorrelSettings.AutoOpacityMax;
@@ -417,4 +398,4 @@ function CorrelCanvasClickHandler(d,i) {
 
 
 
-function CorrelCalculateSignificance(e,t){function n(e,t){var n=Math.PI;var i=n/2;e=Math.abs(e);var s=e/Math.sqrt(t);var o=Math.atan(s);if(t==1){return 1-o/i}var u=Math.sin(o);var a=Math.cos(o);if(t%2==1){return 1-(o+u*a*r(a*a,2,t-3,-1))/i}else{return 1-u*r(a*a,1,t-3,-1)}}function r(e,t,n,r){var i=1;var s=i;var o=t;while(o<=n){i=i*e*o/(o-r);s=s+i;o=o+2}return s}return n(e/Math.sqrt((1-e*e)/(t-2)),t)}
+function CorrelCalculateSignificance(e,t){function z(e,t){var n=Math.PI;var i=n/2;e=Math.abs(e);var s=e/Math.sqrt(t);var o=Math.atan(s);if(t==1){return 1-o/i;}var u=Math.sin(o);var a=Math.cos(o);if(t%2==1){return 1-(o+u*a*y(a*a,2,t-3,-1))/i;}else{return 1-u*y(a*a,1,t-3,-1);}}function y(e,t,n,r){var i=1;var s=i;var o=t;while(o<=n){i=i*e*o/(o-r);s=s+i;o=o+2;}return s;}return z(e/Math.sqrt((1-e*e)/(t-2)),t);}
