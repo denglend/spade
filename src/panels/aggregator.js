@@ -60,6 +60,9 @@ function AggregatorPanelValuesToHash() {
 function AggregatorPanelUpdateFromHash(Hash) {
 	var AggregatorVals = Hash.split(";");
 	d3.select("#AggregatorAttribute").node().value = AggregatorVals[0];
-	d3.select("#AggregatorType").node().value = AggregatorVals[1];
+	//This seems like a sort of hacky way to do this...
+	if (d3.select("#AggregatorType").node().children[AggregatorVals[1]].attributes.style.firstChild.data !== "display: none;") {
+		d3.select("#AggregatorType").node().value = AggregatorVals[1];
+	}
 }
 
