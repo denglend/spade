@@ -78,16 +78,6 @@ function FilterData(data,Filters) {
 	return TempData;
 }
 
-function GetRowNames() {
-	//Return an array of the row attribute names to split on
-	return ReadSelectValues().Rows;
-}
-
-function GetColNames() {
-	//Return an array of the column attribute names to split on
-	return ReadSelectValues().Cols;
-}
-
 function GetAttributeValueList(DataSet,Attribute) {
 	//Returns an array of all the values of a particular attribute
 	//Maybe need to fix this so that it only returns those that still exist after filtering
