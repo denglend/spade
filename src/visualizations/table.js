@@ -314,7 +314,7 @@ function TableExportCSV() {
 	var ExportString = "";
 	var SelectVals = ReadSelectValues();
 	d3.selectAll(".TileDiv").each(function(d) {
-		ExportString += d3.select(this).selectAll(".TileTitleDiv").text()+"\n";
+		ExportString += d3.select(this).selectAll(".TileTitleDiv").html().replace(/&nbsp;/g," ")+"\n";
 		d3.select(this).selectAll(".MainTable tr").each(function(d) { 
 			var cells = d3.select(this).selectAll("td,th")[0];
 			ExportString += cells.reduce(function(prev,cur) { 
