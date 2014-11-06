@@ -1,4 +1,4 @@
-/* globals document, window, Image,d3, unescape, ArrayBuffer, Uint8Array, Blob, webkitURL,URL,atob,DataView,picoModal, PivotSettings */
+/* globals document, window, Image,d3, unescape, ArrayBuffer, Uint8Array, Blob, webkitURL,URL,atob,DataView,picoModal, PivotSettings, Globals */
 
 function DisplayModal(modal) {
 	//modal.Header = header text
@@ -52,6 +52,28 @@ function ObjectToHash(ParsedObj) {
 	}
 	return HashString;
 }
+
+
+function FilterData(data,Filters) {
+    //Returns data filtered against Filters
+	var TempData = data.filter(function(d) {
+
+		var RetVal = true;
+		if (Filters !== undefined) {
+			Filters.forEach(function(el,i,arr) {
+				if (d[el.Attribute] !== undefined && Globals.Catalog[el.Attribute].Date) {
+					if (!el.CompareFunc(new Date(d[el.Attribute]))) RetVal = false;
+				}
+				else {
+					if (!el.CompareFunc(d[el.Attribute])) RetVal = false;
+				}
+			});
+		}
+		return RetVal;
+	});
+	return TempData;
+}
+
 
 function SVGToPNG(SVGHTML,width,height,callback) {
 	//Converts SVG HTML into a PNG file

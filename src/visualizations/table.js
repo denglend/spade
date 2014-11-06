@@ -43,14 +43,14 @@ PivotSettings.Visualizations.push({
 
 
 
-function TableDraw(PivotObj,SelectVals,PivotArray,MainDiv) {
+function TableDraw(Data,SelectVals,MainDiv) {
 	var AggregatorFunc = PivotSettings.Aggregators[SelectVals.AggregatorType].func;
 	var Table = MainDiv.append("table").classed("NoBorder",!SelectVals.VisAdvancedOptions.TableShowText).classed("MainTable",true);
 	var THead = Table.append("thead");
 	var TBody = Table.append("tbody");
 	
 
-	var ColNames = PivotArray[0].val.map(function(a) { return a.col;});
+	var ColNames = Data.PivotArray[0].val.map(function(a) { return a.col;});
 	//Add Column Headers
 	THead.append("tr")
 		.selectAll("th")
@@ -66,7 +66,7 @@ function TableDraw(PivotObj,SelectVals,PivotArray,MainDiv) {
 	
 	//Add TRs to tbody
 	var TableRows = TBody.selectAll("tr")
-		.data(PivotArray)
+		.data(Data.PivotArray)
 		.enter()
 		.append("tr")
 		.style("height","6px");

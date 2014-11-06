@@ -42,11 +42,11 @@ function CalendarDrawInit(SelectVals) {
 	return true;
 }
 
-function CalendarDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
+function CalendarDraw(Data,SelectVals,MainDiv) {
 	var DateAttribute = SelectVals.Split1Attribute;
 	if (DateAttribute  === "" ) return;		//There are no date values in this data set
 	
-	var DateList = FilteredData.map(function(d) {
+	var DateList = Data.CurData.map(function(d) {
 		var CurDate = new Date(d[DateAttribute]);
 		CurDate.setTime(CurDate.getTime() + CurDate.getTimezoneOffset()*60000);
 		return +CurDate.getFullYear();
@@ -76,7 +76,7 @@ function CalendarDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
 				var CurDate = new Date(Jan1); CurDate.setTime(CurDate.getTime() + CurDate.getTimezoneOffset()*60000);
 				CurDate.setDate(CurDate.getDate() + el);
 				var FormattedDate = CurDate.yyyymmdd();
-				var PivotList = PivotObj[FormattedDate];
+				var PivotList = Data.PivotObj[FormattedDate];
 				var AggregatedVal = PivotList === undefined ? undefined : PivotSettings.Aggregators[SelectVals.AggregatorType].func(PivotList);
 				if (AggregatedVal !== undefined) AllValues.push(AggregatedVal);
 				return {Date:FormattedDate,Invisible:CurDate.getFullYear() != CurYear ? true : false,Val:AggregatedVal};

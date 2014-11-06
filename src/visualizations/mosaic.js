@@ -51,7 +51,7 @@ function MosaicDrawInit() {
 	return true;
 }
 
-function MosaicDraw(PivotObj,SelectVals,PivotArray,MainDiv) {
+function MosaicDraw(Data,SelectVals,MainDiv) {
 
 	var ColWidths = [],i,MosaicColData,HeaderHeight,HorizSizeDivisor,VertSizeDivisor,Qizer;
 	

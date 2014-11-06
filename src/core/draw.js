@@ -87,16 +87,22 @@ function Redraw() {
 			var HiddenNode = d3.select("body").append(function() {return CreateDomElement('<div class="FakeHiddenNode" ></div>');})
 				.append(function(){return TileDiv.node();});
 			if (TileFilteredData.length >0) {
-				var PivotObj = CalculatePivotData(TileFilteredData);
-				var PivotArray = PivotObjectToArray(PivotObj);
 				var TileSubDiv = TileDiv.append("div");		//Need sub div so that title isn't overwritten by vis
+				var DataVar = {FullData: Globals.Data, FilteredFullData: FilteredData, CurData: TileFilteredData};
+				for (var i in PivotSettings.Panels) {		//Add in panel-calculated data like PivotObj and PivtArray
+					if (PivotSettings.Panels[i].Functions.CalculateData !== undefined) {
+						PivotSettings.Panels[i].Functions.CalculateData(DataVar);
+					}
+				}
+
 				if (PivotSettings.Visualizations[SelectVals.VisualizationType].Settings.TableDerived) {
 					//If current visualization's tabledervied == true, call table's drawfunc before calling current vis's drawfunc
 					var TableSelectVals = PivotSettings.Visualizations[SelectVals.VisualizationType].TableSelectVals;
 					if (TableSelectVals === undefined) TableSelectVals = SelectVals;
-					PivotSettings.Visualizations[0].Functions.DrawFunc(PivotObj,TableSelectVals,PivotArray,TileSubDiv);
+					PivotSettings.Visualizations[0].Functions.DrawFunc(DataVar,TableSelectVals,TileSubDiv);
 				}
-				PivotSettings.Visualizations[SelectVals.VisualizationType].Functions.DrawFunc(PivotObj,SelectVals,PivotArray,TileSubDiv,TileFilteredData);
+				//Call visualization's Draw Function
+				PivotSettings.Visualizations[SelectVals.VisualizationType].Functions.DrawFunc(DataVar,SelectVals,TileSubDiv);
 			}
 			return TileDiv.remove().node();
 		});

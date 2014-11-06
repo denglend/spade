@@ -30,10 +30,10 @@ PivotSettings.Visualizations.push({
 		});
 
 
-function PieDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
+function PieDraw(Data,SelectVals,MainDiv) {
 	var CanvasWidth,CanvasHeight;
 	
-	for (var CurCircleSplit in PivotObj) {
+	for (var CurCircleSplit in Data.PivotObj) {
 		/* jshint loopfunc: true */
 		if (CurCircleSplit == "(no split)") {
 			CanvasWidth = document.getElementById("MainDiv").scrollWidth-40;
@@ -54,9 +54,9 @@ function PieDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
 		var Radius = Math.min(CanvasWidth, CanvasHeight) / 2;
 		var AllValues = [];
 
-		var DataArray = Object.keys(PivotObj[CurCircleSplit]).map(function(d) {
-			if (PivotObj[CurCircleSplit][d].length === 0) return {val: null};
-			var AggregatedVal = PivotSettings.Aggregators[SelectVals.AggregatorType].func(PivotObj[CurCircleSplit][d]);
+		var DataArray = Object.keys(Data.PivotObj[CurCircleSplit]).map(function(d) {
+			if (Data.PivotObj[CurCircleSplit][d].length === 0) return {val: null};
+			var AggregatedVal = PivotSettings.Aggregators[SelectVals.AggregatorType].func(Data.PivotObj[CurCircleSplit][d]);
 			AllValues.push(AggregatedVal);
 			return {label:d,val:AggregatedVal};
 		}).filter(function(d) { return d.val !== null;});

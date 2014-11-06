@@ -18,7 +18,7 @@ PivotSettings.Visualizations.push({
 			HashNames: []
 		});
 
-function DataInfoDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
+function DataInfoDraw(UnusedData,SelectVals,MainDiv) {
 	MainDiv.append("div").html("Number of Rows of Data: "+Globals.Data.length);
 	var HeaderData = ["Column Name", "Numeric",  "Percent",  "Date", "Non-Numeric Example",  "List of Values"];
 		

@@ -76,11 +76,11 @@ var CorrelGlobals = {
 /* ------------------------------------------------------------------------------------------------------------ */
 
 
-function CorrelDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
+function CorrelDraw(Data,SelectVals,MainDiv) {
 	var HorizSizeDivisor;
 	var NumAttributes = Globals.CurAttributes.length;
 	CorrelGlobals.SelectVals = SelectVals;
-	CorrelGlobals.FilteredData = FilteredData;
+	CorrelGlobals.FilteredData = Data.CurData;
 	
 	if (NumAttributes === 0) {
 		MainDiv.html("<div class='CorrelNoAttr'>Select at least one attribute</div>");
@@ -102,7 +102,7 @@ function CorrelDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
 		CorrelGlobals.BoxSize = CorrelSettings.BoxMaxSize;
 	}
 	
-	CalculateCorrelGlobals(FilteredData,SelectVals);
+	CalculateCorrelGlobals(Data.CurData,SelectVals);
 	
 	var LeftPadding = ((window.innerWidth-CorrelSettings.CanvasRightMargin-CorrelSettings.CanvasRightPadding)-(NumAttributes*CorrelGlobals.BoxSize))/2;
 	LeftPadding  = LeftPadding < 0 ? 0 : LeftPadding;
@@ -126,7 +126,7 @@ function CorrelDraw(PivotObj,SelectVals,PivotArray,MainDiv,FilteredData) {
 	
 	CorrelDrawLabels(Context);
 	CorrelDrawAxes(Context);
-	CorrelPlot(Context,FilteredData,SelectVals);
+	CorrelPlot(Context,Data.CurData,SelectVals);
 }
 
 function CalculateCorrelGlobals(FilteredData,SelectVals) {
