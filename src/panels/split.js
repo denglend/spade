@@ -33,6 +33,7 @@ function SplitPanelUpdateFromHash(Hash) {
 		var CurSplit = d3.select("#SplitsDiv #Split"+Splits[i].slice(0,1)+"Group select");
 		if (CurSplit[0][0] !== null) {				//If this split exists in this vis
 			CurSplit.node().value = Splits[i].slice(1);
+			if (CurSplit.node().value === "") CurSplit.node().selectedIndex = 0;
 		}
 	}
 }
