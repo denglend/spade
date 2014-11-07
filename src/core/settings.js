@@ -9,9 +9,9 @@ var SpadeSettings = {
 		DisplayAttribute: []
 	},
 	DataSets: [
-		{name: "DC Crime 2013",path:"../../sampledata/",file:"dc_crime_2013"},
-		{name: "DC Building Permits",path:"../../sampledata/",file:"dc_building_permits"},	//try plotting correl latitude vs longitude and filter out outliers
-		{name: "Calendar Test",path:"../../sampledata/",file:"calendar_test",defaulthash:"0=Calendar Test&1=3&2=0Adj Close,1(any),20&4=1Date&6=Adj Close;0&7=00&8=(no split);(no split)"},
+		{name: "DC Crime 2013",path:"../sampledata/",file:"dc_crime_2013"},
+		{name: "DC Building Permits",path:"../sampledata/",file:"dc_building_permits"},	//try plotting correl latitude vs longitude and filter out outliers
+		{name: "Calendar Test",path:"../sampledata/",file:"calendar_test",defaulthash:"0=Calendar Test&1=3&2=0Adj Close,1(any),20&4=1Date&6=Adj Close;0&7=00&8=(no split);(no split)"},
 		{name: "Upload Data Set",file:"(upload)"}
 	],
 	ColorScales: [ 
