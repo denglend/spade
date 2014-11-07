@@ -1,10 +1,11 @@
 /* globals d3,PivotSettings,GetAttributeValueList,GenerateQizer,DownloadTextFile,ReadSelectValues,html2canvas,DownloadImageFile,
-   CreateDomElement, Globals */
+   CreateDomElement, Globals, GetPanel */
 
 PivotSettings.Visualizations.push({
 			name: "Table", 
 			Functions: {
-				DrawFunc: TableDraw
+				DrawFunc: TableDraw,
+				DrawInitFunc: TableDrawInit
 			},
 			Settings: {
 				RedrawOnVerticalResize: false,
@@ -41,7 +42,10 @@ PivotSettings.Visualizations.push({
 
 /* ------------------------------------------------------------------------------------------------------------ */
 
-
+function TableDrawInit() {
+	GetPanel("ColorPanel").Functions.DataInit();
+	return true;
+}
 
 function TableDraw(Data,SelectVals,MainDiv) {
 	var AggregatorFunc = PivotSettings.Aggregators[SelectVals.AggregatorType].func;
@@ -182,11 +186,13 @@ function TableDraw(Data,SelectVals,MainDiv) {
 	TableApplyShowAs();
 	
 	//Generate and apply Qizer for cell coloring
-	var AllValues = [];
+	//var AllValues = [];
+	var ColorPanel = GetPanel("ColorPanel");
 	MainDiv.selectAll("tbody tr:not(:last-child) td:not(:last-child):not(:first-child)").each(function(d) {
-		if (d.showasval !== "") AllValues.push(d.showasval);
+		//if (d.showasval !== "") AllValues.push(d.showasval);
+		if (d.showasval !== "") ColorPanel.Functions.AddData(d.showasval,MainDiv);
 	});
-	var Qizer = GenerateQizer(AllValues);
+	/*var Qizer = GenerateQizer(AllValues);
 	MainDiv.selectAll("tbody tr:not(:last-child) td:not(:last-child):not(:first-child)").each(function(d,i) {
 		if (d.showasval !=="") {
 			this.className += " "+PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+Qizer(d.showasval);
@@ -196,9 +202,19 @@ function TableDraw(Data,SelectVals,MainDiv) {
 			}
 		}
 	});
+	*/
+	MainDiv.selectAll("tbody tr:not(:last-child) td:not(:last-child):not(:first-child)")
+		.style("background-color",function(d) {
+			if (d.showasval !== "") return ColorPanel.Functions.GetBackgroundColor(d.showasval);
+			else return "#FFFFFF";
+		})
+		.style("color",function(d) {
+			if (d.showasval !== "") return ColorPanel.Functions.GetTextColor(d.showasval);
+			else return "#000000";
+		});
 	
 	//Draw Legend if option is set
-	if (SelectVals.VisAdvancedOptions.TableShowLegend) TableDrawLegend(Qizer,MainDiv,SelectVals);
+	//if (SelectVals.VisAdvancedOptions.TableShowLegend) TableDrawLegend(Qizer,MainDiv,SelectVals);
 	
 	return;
 	

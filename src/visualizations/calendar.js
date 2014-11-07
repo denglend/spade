@@ -1,4 +1,4 @@
-/* globals PivotSettings,d3,DisplayModal,moment,GenerateQizer,html2canvas,ReadSelectValues,DownloadImageFile,CreateDomElement */
+/* globals PivotSettings,d3,DisplayModal,moment,GenerateQizer,html2canvas,ReadSelectValues,DownloadImageFile,CreateDomElement, GetPanel */
 
 //Inspired by http://bl.ocks.org/mbostock/4063318 who was in turn inspired by http://stat-computing.org/dataexpo/2009/posters/wicklin-allison.pdf
 
@@ -39,13 +39,14 @@ function CalendarDrawInit(SelectVals) {
 		DisplayModal({Header:"No Date Values",Type:"Alert",Content:"There are no columns in your data set that appear to contain dates"});
 		return false;
 	}
+	GetPanel("ColorPanel").Functions.DataInit();		//Init color panel once per draw cycle
 	return true;
 }
 
 function CalendarDraw(Data,SelectVals,MainDiv) {
 	var DateAttribute = SelectVals.Split1Attribute;
 	if (DateAttribute  === "" ) return;		//There are no date values in this data set
-	
+	var ColorPanelFunctions = GetPanel("ColorPanel").Functions;
 	var DateList = Data.CurData.map(function(d) {
 		var CurDate = new Date(d[DateAttribute]);
 		CurDate.setTime(CurDate.getTime() + CurDate.getTimezoneOffset()*60000);
@@ -78,7 +79,7 @@ function CalendarDraw(Data,SelectVals,MainDiv) {
 				var FormattedDate = CurDate.yyyymmdd();
 				var PivotList = Data.PivotObj[FormattedDate];
 				var AggregatedVal = PivotList === undefined ? undefined : PivotSettings.Aggregators[SelectVals.AggregatorType].func(PivotList);
-				if (AggregatedVal !== undefined) AllValues.push(AggregatedVal);
+				if (AggregatedVal !== undefined) ColorPanelFunctions.AddData(AggregatedVal,MainDiv);
 				return {Date:FormattedDate,Invisible:CurDate.getFullYear() != CurYear ? true : false,Val:AggregatedVal};
 			});
 		})
@@ -109,13 +110,10 @@ function CalendarDraw(Data,SelectVals,MainDiv) {
 		});
 			
 	
-	
-	//MainDiv.selectAll(".CalendarTable td").each(function(d,i) {if (d.Val !== undefined) AllValues.push(d.Val);}); 
-	var Qizer = GenerateQizer(AllValues);	
-
-	TableCells.attr("class",function(d) {
-		if (d.Val === undefined) return this.className;
-		return this.className+" "+PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+Qizer(d.Val);
+	//Color cell backgrounds
+	TableCells.style("background-color",function(d) {
+		if (d.Val === undefined) return "#FFFFFF";
+		else return ColorPanelFunctions.GetBackgroundColor(d.Val);
 	});
 
 	//Add Year text

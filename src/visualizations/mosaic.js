@@ -1,4 +1,4 @@
-/* globals d3, PivotSettings, ReadSelectValues, Globals,window,html2canvas,DownloadImageFile,event,document,GenerateQizer */
+/* globals d3, PivotSettings, ReadSelectValues, Globals,window,html2canvas,DownloadImageFile,event,document,GenerateQizer, GetPanel */
 
 PivotSettings.Visualizations.push({
 			name: "Mosaic", 
@@ -48,13 +48,14 @@ function MosaicDrawInit() {
 	SelectVals.VisAdvancedOptions = Globals.TableDefaultOptions;
 	SelectVals.VisAdvancedOptions.TableNumberShowAs = "Percent of Column";
 	PivotSettings.Visualizations[SelectVals.VisualizationType].TableSelectVals = SelectVals;
+	GetPanel("ColorPanel").Functions.DataInit();
 	return true;
 }
 
 function MosaicDraw(Data,SelectVals,MainDiv) {
 
 	var ColWidths = [],i,MosaicColData,HeaderHeight,HorizSizeDivisor,VertSizeDivisor,Qizer;
-	
+	var ColorPanelFunctions = GetPanel("ColorPanel").Functions;
 	//Set the divisor used to calculate tile sizes
 	if (SelectVals.VisAdvancedOptions.MosaicSize == "Auto") {
 		HorizSizeDivisor = SelectVals.HorizTileAttribute == "(no split)" ? 1 : 2;	
@@ -112,7 +113,7 @@ function MosaicDraw(Data,SelectVals,MainDiv) {
 		.style("width",function(d,i) {return d.Width*100- 0.5 +"%";});
 	
 
-	var AllValues = [];
+	//var AllValues = [];
 	var MosaicCells = MosaicCols.selectAll("div")						//Add cells
 		.data(function(row) {return row.CellData;})
 		.enter()
@@ -122,10 +123,10 @@ function MosaicDraw(Data,SelectVals,MainDiv) {
 			h = h < 0 ? 0 : h;
 			return h+"%";
 		})
-		.attr("class","MosaicCellDiv")
+		.attr("class","MosaicCellDiv MosaicExplodedCell")
 		.attr("data-title","<div>This is the tooltip</div>")
 		.html(function(d) {
-			if (d.row !== undefined) AllValues.push(d.row);
+			if (d.row !== undefined && SelectVals.ColorPanelColorBy == "Row") ColorPanelFunctions.AddData(d.row);
 			if (SelectVals.VisAdvancedOptions.MosaicShowText) return "<div>"+d.row+" ("+MosaicFormatPercent(d.showasval)+")</div>"; 
 			else return "";
 		});
@@ -136,25 +137,39 @@ function MosaicDraw(Data,SelectVals,MainDiv) {
 	
 	}
 	
-	var ColorMin = SelectVals.VisAdvancedOptions.MosaicColorMin;
-	var ColorMax = SelectVals.VisAdvancedOptions.MosaicColorMax;
-	if (ColorMin === "" || ColorMax  === "" || isNaN(ColorMin) || isNaN(ColorMax)) {
-		Qizer = GenerateQizer(AllValues);
+
+
+
+	//Color background and text
+	//TODO - Color Min and Color Max options are no longer honored
+	//var ColorMin = SelectVals.VisAdvancedOptions.MosaicColorMin;
+	//var ColorMax = SelectVals.VisAdvancedOptions.MosaicColorMax;
+
+	//If coloring by column, then we need to create the Qizer for column data
+	if (SelectVals.ColorPanelColorBy != "Row") {
+		d3.range(0,PivotSettings.NumberOfShades).forEach(function(d){ ColorPanelFunctions.AddData(d);});
 	}
-	else {
-		Qizer = GenerateQizer(d3.range(ColorMin,ColorMax,(ColorMax-ColorMin)/(1+PivotSettings.NumberOfShades)));
-	}
-		
-	MosaicCells.attr("class",function(d,i) {							//Add cell class and colors
+
+	MosaicCells
+	.style("background-color",function(d,i) {
 		if (SelectVals.ColorPanelColorBy == "Row") {
-			return "MosaicCellDiv "+PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+Qizer(d.row);
+			return ColorPanelFunctions.GetBackgroundColor(d.row);
 		}
 		else {
 			var ColNum = d3.select(this.parentNode).datum().ColNum;
-			return "MosaicCellDiv "+PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+(ColNum%PivotSettings.NumberOfShades);
+			return ColorPanelFunctions.GetBackgroundColor(ColNum%PivotSettings.NumberOfShades);
 		}
 	})
-	.classed("MosaicExplodedCell",true);
+	.style("color",function(d,i) {
+		if (SelectVals.ColorPanelColorBy == "Row") {
+			return ColorPanelFunctions.GetTextColor(d.row);
+		}
+		else {
+			var ColNum = d3.select(this.parentNode).datum().ColNum;
+			return ColorPanelFunctions.GetTextColor(ColNum%PivotSettings.NumberOfShades);
+		}
+
+	});
 	
 	MosaicCells.filter(function(d) {return d.showasval ==="";}).remove();			//Remove any blank cells
 }

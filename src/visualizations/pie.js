@@ -1,4 +1,4 @@
-/* globals d3,PivotSettings,document,window,Globals,GenerateQizer */
+/* globals d3,PivotSettings,document,window,Globals,GenerateQizer, GetPanel */
 
 // Might still be a few lines of code left from: http://bl.ocks.org/mbostock/3887235
 
@@ -6,6 +6,7 @@ PivotSettings.Visualizations.push({
 			name: "Pie",
 			Functions: {
 				DrawFunc:PieDraw,
+				DrawInitFunc: PieDrawInit
 			},
 			Settings: {
 				RedrawOnVerticalResize: true,
@@ -29,6 +30,10 @@ PivotSettings.Visualizations.push({
 			]
 		});
 
+function PieDrawInit() {
+	GetPanel("ColorPanel").Functions.DataInit();
+	return true;
+}
 
 function PieDraw(Data,SelectVals,MainDiv) {
 	var CanvasWidth,CanvasHeight;
@@ -62,7 +67,10 @@ function PieDraw(Data,SelectVals,MainDiv) {
 		}).filter(function(d) { return d.val !== null;});
 	
 		//var Qizer = GenerateQizer(AllValues);
-		var Qizer = GenerateQizer(Globals.Catalog[SelectVals.Split2Attribute].FilteredUniqueList);
+		//var Qizer = GenerateQizer(Globals.Catalog[SelectVals.Split2Attribute].FilteredUniqueList);
+		var ColorPanel = GetPanel("ColorPanel");
+		Globals.Catalog[SelectVals.Split2Attribute].FilteredUniqueList.forEach(function(d) {ColorPanel.Functions.AddData(d,MainDiv);});
+
 
 		var arc = d3.svg.arc()
 			.outerRadius(Radius - 10)
@@ -85,17 +93,15 @@ function PieDraw(Data,SelectVals,MainDiv) {
 
 		g.append("path")
 			.attr("d", arc)
-			.attr("class", function(d) {
-				//return PivotSettings.ColorScales[SelectVals.VisAdvancedOptions.PieColorScale].prefix+Qizer(d.value);
-				return PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+Qizer(d.data.label);
-			})
+			.style("fill",function(d) { return ColorPanel.Functions.GetBackgroundColor(d.data.label);})
 			.append("title").text(function(d) {return PivotSettings.Aggregators[SelectVals.AggregatorType].name+" "+SelectVals.AggregatorAttribute+": "+d.value;});
 
 	  g.append("text")
-		  .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-		  .attr("dy", ".35em")
-		  .style("text-anchor", "middle")
-		  .text(function(d) { return d.data.label; });
+		.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+		.attr("dy", ".35em")
+		.style("text-anchor", "middle")
+	  	.style("fill",function(d) { return ColorPanel.Functions.GetTextColor(d.data.label);})
+		.text(function(d) { return d.data.label; });
 	}
 	
 }

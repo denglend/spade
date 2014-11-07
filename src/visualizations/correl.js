@@ -1,10 +1,11 @@
-/* globals Globals, window,document,d3,html2canvas,ReadSelectValues,DownloadImageFile,PivotSettings,GenerateQizer,colorbrewer,ss,
-   CreateDomElement,Image,event,console,DisplayModal*/
+/* globals Globals, window,document,d3,html2canvas,ReadSelectValues,DownloadImageFile,PivotSettings,colorbrewer,ss,
+   CreateDomElement,Image,event,console,DisplayModal,GetPanel*/
 
 PivotSettings.Visualizations.push({
 			name: "Correlogram",
 			Functions: {
-				DrawFunc:CorrelDraw
+				DrawFunc:CorrelDraw,
+				DrawInitFunc:CorrelDrawInit
 			},
 			Settings: {
 				RedrawOnVerticalResize: false,
@@ -62,8 +63,6 @@ var CorrelGlobals = {
 	RowHeight: null,
 	Scales: null,
 	Axes: null,
-	Qizer: null,
-	ColorVar: null,
 	ColorAttribute: null,
 	Opacity: null,
 	PointSize: null,
@@ -75,6 +74,12 @@ var CorrelGlobals = {
 
 /* ------------------------------------------------------------------------------------------------------------ */
 
+
+function CorrelDrawInit() {
+
+	GetPanel("ColorPanel").Functions.DataInit();
+	return true;
+}
 
 function CorrelDraw(Data,SelectVals,MainDiv) {
 	var HorizSizeDivisor;
@@ -102,12 +107,16 @@ function CorrelDraw(Data,SelectVals,MainDiv) {
 		CorrelGlobals.BoxSize = CorrelSettings.BoxMaxSize;
 	}
 	
+
+	var ColorPanel = GetPanel("ColorPanel");
+	Data.CurData.forEach(function(d) { ColorPanel.Functions.AddData(d[SelectVals.ColorPanelColorBy],MainDiv);});
+
 	CalculateCorrelGlobals(Data.CurData,SelectVals);
 	
 	var LeftPadding = ((window.innerWidth-CorrelSettings.CanvasRightMargin-CorrelSettings.CanvasRightPadding)-(NumAttributes*CorrelGlobals.BoxSize))/2;
 	LeftPadding  = LeftPadding < 0 ? 0 : LeftPadding;
 	
-	var NumberOfLegendEntries =  7; //Qizer.domain().length == 2 && !Qizer.dontquantize ? CorrelSettings.NumberOfShades : Qizer.domain().length;
+	var NumberOfLegendEntries =  7;
 	var CanvasHeight = 22*NumberOfLegendEntries + 
 		NumAttributes*(CorrelGlobals.BoxSize+CorrelSettings.StatsBoxHeight) + 
 		CorrelSettings.LegendTopPadding + 
@@ -135,8 +144,6 @@ function CalculateCorrelGlobals(FilteredData,SelectVals) {
 	CorrelGlobals.RowHeight = (CorrelGlobals.BoxSize+CorrelSettings.StatsBoxHeight);					//The height of each row of the plot
 	CorrelGlobals.Scales = CorrelCreateScales(Globals.CurAttributes,FilteredData);
 	CorrelGlobals.Axes = CorrelCreateAxes();
-	CorrelGlobals.Qizer = GenerateQizer(FilteredData.map(function(d) {return d[SelectVals.ColorPanelColorBy];}));
-	CorrelGlobals.ColorVar = colorbrewer[PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].js][PivotSettings.NumberOfShades];
 	CorrelGlobals.ColorAttribute = SelectVals.ColorPanelColorBy;
 	
 	CorrelGlobals.Opacity = SelectVals.ColorPanelOpacity;
@@ -283,15 +290,15 @@ function CorrelPlotPoints(Context,FilteredData,i,j) {
 	//y = y position
 	var XAttribute = Globals.CurAttributes[i];
 	var YAttribute = Globals.CurAttributes[j];
-	
+	var ColorPanel = GetPanel("ColorPanel");
+
 	for (var k=0;k<FilteredData.length;k++) {
 		var CurDatum = FilteredData[k];
 		var XCoord = CorrelGlobals.Scales.x[XAttribute](CurDatum[XAttribute]) ;
 		var YCoord = CorrelGlobals.Scales.y[YAttribute](CurDatum[YAttribute]) ;
 
-		var Color = d3.rgb(CorrelGlobals.ColorVar[CorrelGlobals.Qizer(CurDatum[CorrelGlobals.ColorAttribute])]);
+		var Color = d3.rgb(ColorPanel.Functions.GetBackgroundColor(CurDatum[CorrelGlobals.ColorAttribute]));
 		Context.fillStyle = "rgba("+Color.r+","+Color.g+","+Color.b+","+CorrelGlobals.Opacity+")";
-		//Context.fillRect(XCoord-CorrelGlobals.PointSize/2,YCoord-CorrelGlobals.PointSize/2,CorrelGlobals.PointSize,CorrelGlobals.PointSize);
 		Context.beginPath();
 		Context.arc(XCoord,YCoord,CorrelGlobals.PointSize/2,0,Math.PI*2,true);
 		Context.fill();

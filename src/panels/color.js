@@ -1,4 +1,4 @@
-/* globals PivotSettings, d3, CreateDomElement, Redraw, Globals, CreateSelectElement, document */
+/* globals PivotSettings, d3, CreateDomElement, Redraw, Globals, CreateSelectElement, document, console, colorbrewer */
 
 PivotSettings.Panels.push({
 		name:"ColorPanel",
@@ -9,14 +9,70 @@ PivotSettings.Panels.push({
 			ReadSelectValues: ColorPanelReadSelectValues,			//Return values of UI items on panel
 			UpdatePanelFromHash: ColorPanelUpdateFromHash,			//Set panel UI items based on passed hash value
 			PanelValuesToHash: ColorPanelValuesToHash,				//Return a hash value encoding current values of UI items
-
+			AddData: ColorPanelAddData,
+			DataInit: ColorPanelDataInit,
+			GetBackgroundColor: ColorPanelBackground,
+			GetTextColor: ColorPanelText,
+			GenerateQizer: GenerateQizer
 		}
 	});
 
 var ColorPanelSettings = {
 	Opacity: ["Auto","100%","75%","50%","25%","10%"],
-	Elements: ["ColorPanelColorScale","ColorPanelColorBy","ColorPanelOpacity"]
+	Elements: ["ColorPanelColorScale","ColorPanelColorBy","ColorPanelOpacity"/*,"ColorPanelTile"*/],
+	Qizer: null,
+	CurDiv: null,
+	DataList: []
 };
+
+/* Vis will:
+	1) Call DataInit at the start of its draw function
+	2) Call AddData for each data point to add
+	3) Call GetbackGroundColor as desired
+	4) Call GetTextColor as desired
+	5) Call GetLegend [once created] as desired
+*/
+
+function ColorPanelDataInit() {
+	ColorPanelSettings.Qizer = null;
+	ColorPanelSettings.CurDiv = null;
+		ColorPanelSettings.DataList = [];
+
+}
+
+function ColorPanelAddData(DataVal,Div) {
+	if (/*document.getElementById("ColorPanelTile").value == 1 && */ Div !== ColorPanelSettings.CurDiv) {
+		ColorPanelSettings.CurDiv = Div;
+		ColorPanelSettings.DataList = [];
+		ColorPanelSettings.Qizer = null;
+	}
+	DataVal = isNaN(DataVal) ? DataVal : +DataVal;		//String -> number if appropriate
+	ColorPanelSettings.DataList.push(DataVal);
+}
+
+function ColorPanelBackground(Value) {
+	var ScaleElement = document.getElementById("ColorPanelColorScale");
+	if (ColorPanelSettings.Qizer === null) {
+		ColorPanelSettings.Qizer = GenerateQizer(ColorPanelSettings.DataList);
+	}
+	if (ScaleElement !== null) {
+		var Scale = PivotSettings.ColorScales[ScaleElement.value].js;
+		var Level = ColorPanelSettings.Qizer(Value);
+		return colorbrewer[Scale][PivotSettings.NumberOfShades][Level];
+	}
+	else {
+		console.error("ColorPanelBackground called when ColorScale select has not been created");
+		return "#FFFFFF";
+	}
+}
+
+function ColorPanelText(Value) {
+	var BGColor = d3.rgb(ColorPanelBackground(Value));
+	if (Math.sqrt(0.241*BGColor.r*BGColor.r + 0.691*BGColor.g*BGColor.g + 0.068*BGColor.b*BGColor.b ) < 130) {
+		return "#FFFFFF";
+	}
+	else return "#000000";
+}
 
 function ColorPanelReset(Div,Visualization) {
 /* Potential options/elements for this div:
@@ -71,6 +127,16 @@ function ColorPanelReset(Div,Visualization) {
 		.text(function(d) { return d;});
 	}
 
+	/*Div.append("div").attr("class","InlineOptionDiv")
+		.append(CreateSelectElement)
+		.select("select")
+		.attr("id","ColorPanelTile")
+		.on("change",Redraw)
+		.selectAll("option")
+		.data([{val:0,name:"Don't Reset"},{val:1,name:"Reset Colors / Tile"}])
+		.enter().append("option")
+		.attr("value",function(d) {return d.val;})
+		.text(function(d) {return d.name;}); */
 }
 
 
@@ -102,3 +168,54 @@ function ColorPanelUpdateFromHash(Hash) {
 }
 
 
+
+
+function GenerateQizer(ValueArray) {
+//Pass it an array containing all the values that will be colored
+//returned a Qizing function as a convenience for visualizations that want to color with color scales
+//Uses Quantize if all numerical values, otherwise thresholds
+
+	var domain,range;
+	var UniqueValues = d3.set(ValueArray).values().map(function(d) { if (isNaN(d)) return d; return +d;});
+	var AllNumbers = ValueArray.filter(function(d) {return isNaN(d);}).length === 0;
+	ValueArray = ValueArray.map(function(d) {return isNaN(d) ? d : +d;});
+
+
+	if (AllNumbers && UniqueValues.length > PivotSettings.NumberOfShades) {
+		//For continuous data, use quantize
+		ValueArray.sort(d3.ascending);
+		if (ValueArray[0] == ValueArray[ValueArray.length-1]) return function(a) {return 0;};		//If all #s are the same in list, always return 0
+		else return d3.scale.quantize().domain(ValueArray).range(d3.range(PivotSettings.NumberOfShades));
+	}
+	else {
+		//For string data, or when there are fewer than NumberOfShades unique values, just use a simple mapping
+		//domain = ValueArray.filter(function(value, index, self) { return self.indexOf(value) === index;}).sort(d3.ascending);
+		domain = UniqueValues.sort(d3.ascending);
+		if (UniqueValues.length <= PivotSettings.NumberOfShades) {
+			range = UniqueValues.map(function(el, i) {
+				return Math.round(i*PivotSettings.NumberOfShades/UniqueValues.length);
+			});
+		}
+		else {
+			range = d3.range(UniqueValues.length);
+		}
+		var	QizerObj = function(input) {
+			if (input ===undefined) return QizerObj;
+			return isNaN(input) ?
+				QizerObj.rangevals[QizerObj.domvals.indexOf(input)] % PivotSettings.NumberOfShades :
+				QizerObj.rangevals[QizerObj.domvals.indexOf(+input)];
+		};
+		QizerObj.domain = function(setvals) {
+			if (setvals ===undefined) return QizerObj.domvals;
+			QizerObj.domvals = setvals;
+			return QizerObj;
+		};
+		QizerObj.range = function(setvals) {
+			if (setvals === undefined) return QizerObj.rangevals;
+			QizerObj.rangevals = setvals;
+			return QizerObj;
+		};
+		QizerObj.dontquantize = true;
+		return  QizerObj.domain(domain).range(range);
+	}
+}
