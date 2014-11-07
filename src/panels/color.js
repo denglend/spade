@@ -25,18 +25,11 @@ var ColorPanelSettings = {
 	DataList: []
 };
 
-/* Vis will:
-	1) Call DataInit at the start of its draw function
-	2) Call AddData for each data point to add
-	3) Call GetbackGroundColor as desired
-	4) Call GetTextColor as desired
-	5) Call GetLegend [once created] as desired
-*/
 
 function ColorPanelDataInit() {
 	ColorPanelSettings.Qizer = null;
 	ColorPanelSettings.CurDiv = null;
-		ColorPanelSettings.DataList = [];
+	ColorPanelSettings.DataList = [];
 
 }
 
@@ -57,8 +50,8 @@ function ColorPanelBackground(Value) {
 	}
 	if (ScaleElement !== null) {
 		var Scale = SpadeSettings.ColorScales[ScaleElement.value].js;
-		var Level = ColorPanelSettings.Qizer(Value);
-		return colorbrewer[Scale][SpadeSettings.NumberOfShades][Level];
+		var Level = ColorPanelSettings.Qizer.func(Value);
+		return colorbrewer[Scale][ColorPanelSettings.Qizer.shades][Level];
 	}
 	else {
 		console.error("ColorPanelBackground called when ColorScale select has not been created");
@@ -171,51 +164,33 @@ function ColorPanelUpdateFromHash(Hash) {
 
 
 function GenerateQizer(ValueArray) {
-//Pass it an array containing all the values that will be colored
-//returned a Qizing function as a convenience for visualizations that want to color with color scales
-//Uses Quantize if all numerical values, otherwise thresholds
+//Pass it an array containing all the values that will be colored, returns a leveling function and # of levels
 
 	var domain,range;
-	var UniqueValues = d3.set(ValueArray).values().map(function(d) { if (isNaN(d)) return d; return +d;});
-	var AllNumbers = ValueArray.filter(function(d) {return isNaN(d);}).length === 0;
 	ValueArray = ValueArray.map(function(d) {return isNaN(d) ? d : +d;});
-
+	var UniqueValues = d3.set(ValueArray).values();
+	var AllNumbers = ValueArray.filter(function(d) {return isNaN(d);}).length === 0;
+	var QizerObj = {func:null,shades:null};
 
 	if (AllNumbers && UniqueValues.length > SpadeSettings.NumberOfShades) {
 		//For continuous data, use quantize
 		ValueArray.sort(d3.ascending);
 		if (ValueArray[0] == ValueArray[ValueArray.length-1]) return function(a) {return 0;};		//If all #s are the same in list, always return 0
-		else return d3.scale.quantize().domain(ValueArray).range(d3.range(SpadeSettings.NumberOfShades));
+		QizerObj.shades = SpadeSettings.NumberOfShades;
+		QizerObj.func = d3.scale.quantize().domain(ValueArray).range(d3.range(SpadeSettings.NumberOfShades));
+		return QizerObj;
 	}
 	else {
 		//For string data, or when there are fewer than NumberOfShades unique values, just use a simple mapping
-		//domain = ValueArray.filter(function(value, index, self) { return self.indexOf(value) === index;}).sort(d3.ascending);
-		domain = UniqueValues.sort(d3.ascending);
-		if (UniqueValues.length <= SpadeSettings.NumberOfShades) {
-			range = UniqueValues.map(function(el, i) {
-				return Math.round(i*SpadeSettings.NumberOfShades/UniqueValues.length);
-			});
-		}
-		else {
-			range = d3.range(UniqueValues.length);
-		}
-		var	QizerObj = function(input) {
+		QizerObj.domvals = UniqueValues.sort(d3.ascending);
+		QizerObj.rangevals = d3.range(UniqueValues.length);
+		QizerObj.shades = UniqueValues.length <= SpadeSettings.NumberOfShades ? UniqueValues.length : SpadeSettings.NumberOfShades;
+		QizerObj.func = function(input) {
 			if (input ===undefined) return QizerObj;
 			return isNaN(input) ?
 				QizerObj.rangevals[QizerObj.domvals.indexOf(input)] % SpadeSettings.NumberOfShades :
 				QizerObj.rangevals[QizerObj.domvals.indexOf(+input)];
 		};
-		QizerObj.domain = function(setvals) {
-			if (setvals ===undefined) return QizerObj.domvals;
-			QizerObj.domvals = setvals;
-			return QizerObj;
-		};
-		QizerObj.range = function(setvals) {
-			if (setvals === undefined) return QizerObj.rangevals;
-			QizerObj.rangevals = setvals;
-			return QizerObj;
-		};
-		QizerObj.dontquantize = true;
-		return  QizerObj.domain(domain).range(range);
+		return QizerObj;
 	}
 }
