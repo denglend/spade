@@ -33,7 +33,7 @@ function AdvancedOptionsPanelReadSelectValues() {
 
 function AdvancedOptionsPanelValuesToHash(VisualizationChanging) {
 	
-	var CurVis = MatchObjectInArray(PivotSettings.Visualizations,"name",MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization);
+	var CurVis = PivotSettings.Visualizations[MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization];
 	var CurHash = "";
 	CurHash += d3.select("#HorizTileGroup select").node().value + ";";
 	CurHash += d3.select("#VertTileGroup select").node().value  + ";";
@@ -55,7 +55,7 @@ function AdvancedOptionsPanelUpdateFromHash(Hash) {
 	//Testing ... Call Reset again in case Visualization is not the same as when Reset was originally called
 	//d3.selectAll("#AdvancedOptionsDiv div").remove();
 	
-	var CurVis = MatchObjectInArray(PivotSettings.Visualizations,"name",MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization);
+	var CurVis = PivotSettings.Visualizations[MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization];
 	//AdvancedOptionsPanelReset(d3.select("#AdvancedOptionsDiv"),CurVis);
 	var Options = Hash.split(";");
 	d3.select("#HorizTileGroup select").node().value = Options[0];
@@ -124,7 +124,7 @@ function AdvancedOptionsPanelToggleHandler(d,i) {
 		d3.select(".ArrowDown").classed("ArrowRight",true);
 		d3.select(".ArrowDown").classed("ArrowDown",false);
 	}
-	if (MatchObjectInArray(PivotSettings.Visualizations,"name",MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization).Settings.RedrawOnVerticalResize !== false) {
+	if (PivotSettings.Visualizations[MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization].Settings.RedrawOnVerticalResize !== false) {
 		Redraw();
 	}
 	else {

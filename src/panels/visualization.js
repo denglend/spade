@@ -1,5 +1,5 @@
 /* globals PivotSettings, d3, CreateDomElement, Redraw, Globals, CreateSelectElement,  MatchObjectInArray, CreateAdvancedOption,
-	PopulateForm, document, ReadHashFromSelectValues */
+	PopulateForm, document, ReadHashFromSelectValues, ParseHash */
 
 PivotSettings.Panels.push({
 		name:"VisualizationPanel",
@@ -13,7 +13,7 @@ PivotSettings.Panels.push({
 
 		},
 		Options: {
-			CurVisualization: "Table"
+			CurVisualization: ParseHash()[PivotSettings.Panels.length] === undefined ? 0 : ParseHash()[PivotSettings.Panels.length]
 		}
 	});
 
@@ -29,10 +29,10 @@ function VisualizationPanelUpdateFromHash(Hash) {
 	//Remove these next two lines when coding cleanup is ... cleaned up?
 	d3.select("#VisualizationType").node().value = Hash;
 	var Panel = MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel");
-	if (Panel.Options.CurVisualization != PivotSettings.Visualizations[Hash].name) {
+	if (Panel.Options.CurVisualization != Hash) {
 		d3.select("#VisualizationType").each(VisualizationChangeHandler);
 	}
-	Panel.Options.CurVisualization = PivotSettings.Visualizations[Hash].name;
+	Panel.Options.CurVisualization = Hash;
 }
 
 function VisualizationPanelReset(Div,Visualization) {
@@ -44,7 +44,7 @@ function VisualizationPanelReset(Div,Visualization) {
 		.enter().append("option")
 		.attr("value",function(d,i) {return i;})
 		.text(function(d) {return d.name;})
-		.each(function(d,i) { if (Panel.Options.CurVisualization == d.name) this.selected = true;});
+		.each(function(d,i) { if (Panel.Options.CurVisualization == i) this.selected = true;});
 }
 
 
@@ -68,7 +68,7 @@ function VisualizationChangeHandlerNoRedraw(d,i) {
 	//testing
 	//location.replace("#"+ReadHashFromSelectValues(true));
 	//testing
-	Panel.Options.CurVisualization = PivotSettings.Visualizations[Visualization].name;
+	Panel.Options.CurVisualization = Visualization;
 	
 	PopulateForm();
 

@@ -49,10 +49,12 @@ function DataSetPanelReset(Div,Visualization) {
 //This function is called when the user choose a new option in the DataSet drop down box
 function DataSetChangeEvent() {
 	var Panel = MatchObjectInArray(PivotSettings.Panels,"name","DataSetPanel");
-	Panel.Options.CurDataSet = this.value;
-	Globals.IgnoreHashChange = true;
-	document.location.hash = PivotSettings.Panels.indexOf(GetPanel("DataSetPanel"))+"="+this.value;
 	
+	if (Panel.Options.CurDataSet !== "" ) {
+		Globals.IgnoreHashChange = true;
+		document.location.hash = PivotSettings.Panels.indexOf(GetPanel("DataSetPanel"))+"="+this.value;
+	}
+	Panel.Options.CurDataSet = this.value;
 	if (Panel.Options.CurDataSet === "Upload Data Set") {
 		//Time to prompt the user to load a new file
 		document.getElementById("FileSelectInput").click();

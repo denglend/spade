@@ -10,7 +10,7 @@ function PopulateForm(container) {
 	
 	for (var Panel in PivotSettings.Panels) {
 		
-		var CurVis = MatchObjectInArray(PivotSettings.Visualizations,"name",MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization);
+		var CurVis = PivotSettings.Visualizations[MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization];
 		if (CurVis.Panels[PivotSettings.Panels[Panel].name] !== undefined) {
 			PivotSettings.Panels[Panel].Active = true;
 			CurHeaderDiv = HeaderDiv.append("div").attr("id",PivotSettings.Panels[Panel].PanelDiv);		//Create Div for this panel
@@ -25,7 +25,7 @@ function PopulateForm(container) {
 		}
 	}
 	//Call Visualization's init function
-	var InitFunc = MatchObjectInArray(PivotSettings.Visualizations,"name",MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization).Functions.InitFunc;
+	var InitFunc = PivotSettings.Visualizations[MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization].Functions.InitFunc;
 	if (InitFunc !== undefined) InitFunc();
 	}
 
