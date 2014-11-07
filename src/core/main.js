@@ -1,5 +1,5 @@
 /* globals sessionStorage, d3, DisplayModal, PivotSettings, Globals, ParseURLParams, document, ParseHash, ShortenSelectKey, ProcessLoadedData,
-	MatchObjectInArray, SetEventHandlers, PopulateForm, GetPanel, CreateDomElement */
+	MatchObjectInArray, SetEventHandlers, GetPanel, CreateDomElement */
 
 
 /* START */
