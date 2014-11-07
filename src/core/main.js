@@ -1,4 +1,4 @@
-/* globals sessionStorage, d3, DisplayModal, PivotSettings, Globals, ParseURLParams, document, ParseHash, ShortenSelectKey, ProcessLoadedData,
+/* globals sessionStorage, d3, DisplayModal, SpadeSettings, Globals, ParseURLParams, document, ParseHash, ShortenSelectKey, ProcessLoadedData,
 	SetEventHandlers, GetPanel, CreateDomElement */
 
 
@@ -8,10 +8,10 @@ Initialize();
 
 function Initialize() {
 	
-	if (sessionStorage.getItem("version") === null || sessionStorage.getItem("version") != PivotSettings.Version) {
+	if (sessionStorage.getItem("version") === null || sessionStorage.getItem("version") != SpadeSettings.Version) {
 		d3.text("changelog.txt",function(error,data) {
 			DisplayModal({Header:"New Version!",Type:"Pre",Content:data});
-			sessionStorage.setItem("version",PivotSettings.Version);
+			sessionStorage.setItem("version",SpadeSettings.Version);
 		});
 	}
 
@@ -20,9 +20,9 @@ function Initialize() {
 		d3.select("#HeaderDiv").style("display","none");
 	}
 	
-	var HashNum = PivotSettings.Panels.indexOf(GetPanel("DataSetPanel"));
+	var HashNum = SpadeSettings.Panels.indexOf(GetPanel("DataSetPanel"));
 	var HashObj = ParseHash();
-	var DefaultFileName = PivotSettings.DataSets[0].name;
+	var DefaultFileName = SpadeSettings.DataSets[0].name;
 	SetEventHandlers();
 	GetPanel("DataSetPanel").Functions.UpdatePanelFromHash(HashObj[HashNum] === undefined? DefaultFileName : HashObj[HashNum]);
 }

@@ -1,6 +1,6 @@
-/* globals PivotSettings, d3, CreateDomElement, Redraw, Globals */
+/* globals SpadeSettings, d3, CreateDomElement, Redraw, Globals */
 
-PivotSettings.Panels.push({
+SpadeSettings.Panels.push({
 		name:"SelectPanel",
 		PanelDiv:"SelectDiv",
 		Title: "Select",
@@ -63,7 +63,7 @@ function SelectPanelReset(Div,Visualization) {
 			.selectAll("option")
 			.data(Object.keys(Globals.Catalog)
 				.filter(function(d,i) { 
-					if ( PivotSettings.HiddenAttributes.FilterAttributeSelect.indexOf(d) != -1) return false;
+					if ( SpadeSettings.HiddenAttributes.FilterAttributeSelect.indexOf(d) != -1) return false;
 					if (CurType !== undefined) return Globals.Catalog[d][CurType];
 					else return true;
 				}).sort())

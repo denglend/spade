@@ -1,6 +1,6 @@
-/* globals PivotSettings,d3, Globals, CreateSelectElement, Redraw */
+/* globals SpadeSettings,d3, Globals, CreateSelectElement, Redraw */
 
-PivotSettings.Panels.push({
+SpadeSettings.Panels.push({
 		name:"FilterPanel",
 		PanelDiv:"FiltersDiv",
 		Title: "Filters",
@@ -33,7 +33,7 @@ function FilterPanelReadSelectValues() {
 		}
 		TempFilter.CompareFuncName = d3.select(this).selectAll(".FilterCompareType").node().value;
 		if (TempFilter.CompareValue != "(any)") {
-			TempFilter.CompareFunc = PivotSettings.Comparators[d3.select(this).selectAll(".FilterCompareType").node().value].func(TempFilter.CompareValue);
+			TempFilter.CompareFunc = SpadeSettings.Comparators[d3.select(this).selectAll(".FilterCompareType").node().value].func(TempFilter.CompareValue);
 		}
 		else {
 			TempFilter.CompareFunc = function(a) {return true;};
@@ -91,13 +91,13 @@ function FilterPanelAppendNewGroup(Div,GroupNumber) {
 	FilterAttr.selectAll("option")
 		.data(Object.keys(Globals.Data[0])
 		.filter(function(el) { 
-			return PivotSettings.HiddenAttributes.FilterAttributeSelect.indexOf(el.toUpperCase()) == -1;
+			return SpadeSettings.HiddenAttributes.FilterAttributeSelect.indexOf(el.toUpperCase()) == -1;
 		}).sort())
 		.enter().append("option")
 		.attr("value",function(d,i) {return d;})
 		.text(function(d) {return d;});
 	FilterType.selectAll("option")
-		.data(PivotSettings.Comparators)
+		.data(SpadeSettings.Comparators)
 		.enter().append("option")
 		.attr("value",function(d,i) {return i;})
 		.text(function(d) {return d.name;});
@@ -141,7 +141,7 @@ function FilterPanelAttrChangeNoRedraw(d,i) {
 
 function FilterPanelNewRow(d,i) {
 	var CurFilterCount = d3.selectAll(".PivotFilterGroup").size();
-	if ( CurFilterCount == PivotSettings.MaxFilters) return;
+	if ( CurFilterCount == SpadeSettings.MaxFilters) return;
 	FilterPanelAppendNewGroup(d3.select("#PivotFilterGroups"));
 }
 

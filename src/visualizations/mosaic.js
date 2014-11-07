@@ -1,6 +1,6 @@
-/* globals d3, PivotSettings, ReadSelectValues, Globals,window,html2canvas,DownloadImageFile,event,document,GenerateQizer, GetPanel */
+/* globals d3, SpadeSettings, ReadSelectValues, Globals,window,html2canvas,DownloadImageFile,event,document,GenerateQizer, GetPanel */
 
-PivotSettings.Visualizations.push({
+SpadeSettings.Visualizations.push({
 			name: "Mosaic", 
 			Functions: {
 				DrawFunc: MosaicDraw, 				//Called to draw mosaic
@@ -47,7 +47,7 @@ function MosaicDrawInit() {
 	var SelectVals = ReadSelectValues();
 	SelectVals.VisAdvancedOptions = Globals.TableDefaultOptions;
 	SelectVals.VisAdvancedOptions.TableNumberShowAs = "Percent of Column";
-	PivotSettings.Visualizations[SelectVals.VisualizationType].TableSelectVals = SelectVals;
+	SpadeSettings.Visualizations[SelectVals.VisualizationType].TableSelectVals = SelectVals;
 	GetPanel("ColorPanel").Functions.DataInit();
 	return true;
 }
@@ -147,7 +147,7 @@ function MosaicDraw(Data,SelectVals,MainDiv) {
 
 	//If coloring by column, then we need to create the Qizer for column data
 	if (SelectVals.ColorPanelColorBy != "Row") {
-		d3.range(0,PivotSettings.NumberOfShades).forEach(function(d){ ColorPanelFunctions.AddData(d);});
+		d3.range(0,SpadeSettings.NumberOfShades).forEach(function(d){ ColorPanelFunctions.AddData(d);});
 	}
 
 	MosaicCells
@@ -157,7 +157,7 @@ function MosaicDraw(Data,SelectVals,MainDiv) {
 		}
 		else {
 			var ColNum = d3.select(this.parentNode).datum().ColNum;
-			return ColorPanelFunctions.GetBackgroundColor(ColNum%PivotSettings.NumberOfShades);
+			return ColorPanelFunctions.GetBackgroundColor(ColNum%SpadeSettings.NumberOfShades);
 		}
 	})
 	.style("color",function(d,i) {
@@ -166,7 +166,7 @@ function MosaicDraw(Data,SelectVals,MainDiv) {
 		}
 		else {
 			var ColNum = d3.select(this.parentNode).datum().ColNum;
-			return ColorPanelFunctions.GetTextColor(ColNum%PivotSettings.NumberOfShades);
+			return ColorPanelFunctions.GetTextColor(ColNum%SpadeSettings.NumberOfShades);
 		}
 
 	});

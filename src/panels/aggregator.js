@@ -1,5 +1,5 @@
-/* globals d3, PivotSettings, Redraw, CreateSelectElement,Globals */
-PivotSettings.Panels.push({
+/* globals d3, SpadeSettings, Redraw, CreateSelectElement,Globals */
+SpadeSettings.Panels.push({
 		name:"AggregatorPanel",
 		PanelDiv:"AggregateDiv",
 		Title: "Aggregator",
@@ -20,14 +20,14 @@ function AggregatorPanelReset(Div,Visualization) {
 		.selectAll("option")
 		.data(Object.keys(Globals.Data[0])
 		.filter(function(el) { 
-			return PivotSettings.HiddenAttributes.DisplayAttribute.indexOf(el.toUpperCase()) == -1;
+			return SpadeSettings.HiddenAttributes.DisplayAttribute.indexOf(el.toUpperCase()) == -1;
 		}).sort())
 		.enter().append("option")
 		.attr("value",function(d,i) {return d;})
 		.text(function(d) {return d;});
 	
 	TypeElement.selectAll("option")
-		.data(PivotSettings.Aggregators)
+		.data(SpadeSettings.Aggregators)
 		.enter().append("option")
 		.attr("value",function(d,i) {return i;})
 		.text(function(d) {return d.name;});
@@ -40,7 +40,7 @@ function AggregatorPanelReset(Div,Visualization) {
 		.filter(function(d,i) { return Visualization.Panels.AggregatorPanel.Aggregators.indexOf(d.shortname) == -1;})
 		.style("display","none");													//Hide aggregator types not requested by vis settings
 
-		var CurAggregatorName = PivotSettings.Aggregators[d3.select("#AggregatorType").node().selectedIndex].shortname;
+		var CurAggregatorName = SpadeSettings.Aggregators[d3.select("#AggregatorType").node().selectedIndex].shortname;
 		if (Visualization.Panels.AggregatorPanel.Aggregators.indexOf(CurAggregatorName) == -1 ) d3.select("#AggregatorType").node().selectedIndex = 1;
 	}
 }

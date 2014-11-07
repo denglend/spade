@@ -1,5 +1,5 @@
-/* globals d3,PivotSettings,document,Redraw,Globals, ReadSelectValues */
-PivotSettings.Panels.push({
+/* globals d3,SpadeSettings,document,Redraw,Globals, ReadSelectValues */
+SpadeSettings.Panels.push({
 		name:"SplitPanel", 
 		PanelDiv:"SplitsDiv",
 		Title: "Splits",
@@ -57,7 +57,7 @@ function SplitPanelReset(Div,Visualization) {
 			.selectAll("option")
 				.data(NoSplitArray.concat(Object.keys(Globals.Catalog)
 					.filter(function(d,i) { 
-						if ( PivotSettings.HiddenAttributes.FilterAttributeSelect.indexOf(d) != -1) return false;
+						if ( SpadeSettings.HiddenAttributes.FilterAttributeSelect.indexOf(d) != -1) return false;
 						if (SplitType !== undefined) return Globals.Catalog[d][SplitType];
 						else return true;
 					}).sort()))

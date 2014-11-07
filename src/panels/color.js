@@ -1,6 +1,6 @@
-/* globals PivotSettings, d3, CreateDomElement, Redraw, Globals, CreateSelectElement, document, console, colorbrewer */
+/* globals SpadeSettings, d3, CreateDomElement, Redraw, Globals, CreateSelectElement, document, console, colorbrewer */
 
-PivotSettings.Panels.push({
+SpadeSettings.Panels.push({
 		name:"ColorPanel",
 		PanelDiv:"ColorDiv",
 		Title: "Colors",
@@ -56,9 +56,9 @@ function ColorPanelBackground(Value) {
 		ColorPanelSettings.Qizer = GenerateQizer(ColorPanelSettings.DataList);
 	}
 	if (ScaleElement !== null) {
-		var Scale = PivotSettings.ColorScales[ScaleElement.value].js;
+		var Scale = SpadeSettings.ColorScales[ScaleElement.value].js;
 		var Level = ColorPanelSettings.Qizer(Value);
-		return colorbrewer[Scale][PivotSettings.NumberOfShades][Level];
+		return colorbrewer[Scale][SpadeSettings.NumberOfShades][Level];
 	}
 	else {
 		console.error("ColorPanelBackground called when ColorScale select has not been created");
@@ -90,7 +90,7 @@ function ColorPanelReset(Div,Visualization) {
 			.attr("id","ColorPanelColorScale")
 			.on("change",Redraw)
 			.selectAll("option")
-			.data(PivotSettings.ColorScales)
+			.data(SpadeSettings.ColorScales)
 			.enter().append("option")
 			.attr("value",function(d,i) {return i;})
 			.text(function(d) {return d.name;});
@@ -106,7 +106,7 @@ function ColorPanelReset(Div,Visualization) {
 		.selectAll("option")
 		.data(Visualization.Panels.ColorPanel.ColorBy !== true ? Visualization.Panels.ColorPanel.ColorBy : Object.keys(Globals.Data[0] )
 		.filter(function(el) {
-			return PivotSettings.HiddenAttributes.FilterAttributeSelect.indexOf(el.toUpperCase()) == -1;
+			return SpadeSettings.HiddenAttributes.FilterAttributeSelect.indexOf(el.toUpperCase()) == -1;
 		}).sort())
 		.enter().append("option")
 		.attr("value",function(d,i) {return d;})
@@ -181,19 +181,19 @@ function GenerateQizer(ValueArray) {
 	ValueArray = ValueArray.map(function(d) {return isNaN(d) ? d : +d;});
 
 
-	if (AllNumbers && UniqueValues.length > PivotSettings.NumberOfShades) {
+	if (AllNumbers && UniqueValues.length > SpadeSettings.NumberOfShades) {
 		//For continuous data, use quantize
 		ValueArray.sort(d3.ascending);
 		if (ValueArray[0] == ValueArray[ValueArray.length-1]) return function(a) {return 0;};		//If all #s are the same in list, always return 0
-		else return d3.scale.quantize().domain(ValueArray).range(d3.range(PivotSettings.NumberOfShades));
+		else return d3.scale.quantize().domain(ValueArray).range(d3.range(SpadeSettings.NumberOfShades));
 	}
 	else {
 		//For string data, or when there are fewer than NumberOfShades unique values, just use a simple mapping
 		//domain = ValueArray.filter(function(value, index, self) { return self.indexOf(value) === index;}).sort(d3.ascending);
 		domain = UniqueValues.sort(d3.ascending);
-		if (UniqueValues.length <= PivotSettings.NumberOfShades) {
+		if (UniqueValues.length <= SpadeSettings.NumberOfShades) {
 			range = UniqueValues.map(function(el, i) {
-				return Math.round(i*PivotSettings.NumberOfShades/UniqueValues.length);
+				return Math.round(i*SpadeSettings.NumberOfShades/UniqueValues.length);
 			});
 		}
 		else {
@@ -202,7 +202,7 @@ function GenerateQizer(ValueArray) {
 		var	QizerObj = function(input) {
 			if (input ===undefined) return QizerObj;
 			return isNaN(input) ?
-				QizerObj.rangevals[QizerObj.domvals.indexOf(input)] % PivotSettings.NumberOfShades :
+				QizerObj.rangevals[QizerObj.domvals.indexOf(input)] % SpadeSettings.NumberOfShades :
 				QizerObj.rangevals[QizerObj.domvals.indexOf(+input)];
 		};
 		QizerObj.domain = function(setvals) {

@@ -1,6 +1,6 @@
 /* globals ss,SplitPanelInit,AttributePanelInit,AggregatorPanelInit,SelectPanelInit,FilterPanelInit,AdvancedOptionsPanelInit */
 
-var PivotSettings = {
+var SpadeSettings = {
 	Version: "0.3.0",
 	MaxFilters: 5,
 	NumberOfShades: 7,

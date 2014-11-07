@@ -1,5 +1,5 @@
-/* globals PivotSettings,Globals, d3, Redraw */
-PivotSettings.Panels.push({
+/* globals SpadeSettings,Globals, d3, Redraw */
+SpadeSettings.Panels.push({
 		name:"AttributePanel",
 		PanelDiv:"AttributeDiv",
 		Title: "Attributes",
@@ -64,7 +64,7 @@ function AttributePanelReset(Div,Visualization) {
 		.attr("id","AttributeContainerDiv")
 		.selectAll("span")
 		.data(Object.keys(Globals.Data[0]).filter(function(el) {
-			return PivotSettings.HiddenAttributes.DisplayAttribute.indexOf(el.toUpperCase()) == -1;
+			return SpadeSettings.HiddenAttributes.DisplayAttribute.indexOf(el.toUpperCase()) == -1;
 		}).sort())
 		.enter()
 		.append("span")

@@ -1,4 +1,4 @@
-/* globals d3, window,Redraw,SetSelectValuesFromHash,Globals,PivotSettings,CreateDomElement,CreateAdvancedOption,
+/* globals d3, window,Redraw,SetSelectValuesFromHash,Globals,SpadeSettings,CreateDomElement,CreateAdvancedOption,
    ReloadDataSet,ResetMainDivHeight,ReadSelectValues,VisualizationChangeHandlerNoRedraw */
 function SetEventHandlers() {
 	

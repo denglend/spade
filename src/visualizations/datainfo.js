@@ -1,5 +1,5 @@
-/* globals PivotSettings,Globals */
-PivotSettings.Visualizations.push({
+/* globals SpadeSettings,Globals */
+SpadeSettings.Visualizations.push({
 			name: "Data Info",
 			Functions: {
 				DrawFunc:DataInfoDraw
@@ -59,6 +59,6 @@ function DataInfoDraw(UnusedData,SelectVals,MainDiv) {
 		.style("background-color","#EEE")
 		.text(function(d) {return d;});
 
-	MainDiv.append("div").append("pre").text(JSON.stringify(PivotSettings,undefined,2));
+	MainDiv.append("div").append("pre").text(JSON.stringify(SpadeSettings,undefined,2));
 	
 }

@@ -1,8 +1,8 @@
-/* globals d3,PivotSettings,document,window,Globals,GenerateQizer, GetPanel */
+/* globals d3,SpadeSettings,document,window,Globals,GenerateQizer, GetPanel */
 
 // Might still be a few lines of code left from: http://bl.ocks.org/mbostock/3887235
 
-PivotSettings.Visualizations.push({
+SpadeSettings.Visualizations.push({
 			name: "Pie",
 			Functions: {
 				DrawFunc:PieDraw,
@@ -61,7 +61,7 @@ function PieDraw(Data,SelectVals,MainDiv) {
 
 		var DataArray = Object.keys(Data.PivotObj[CurCircleSplit]).map(function(d) {
 			if (Data.PivotObj[CurCircleSplit][d].length === 0) return {val: null};
-			var AggregatedVal = PivotSettings.Aggregators[SelectVals.AggregatorType].func(Data.PivotObj[CurCircleSplit][d]);
+			var AggregatedVal = SpadeSettings.Aggregators[SelectVals.AggregatorType].func(Data.PivotObj[CurCircleSplit][d]);
 			AllValues.push(AggregatedVal);
 			return {label:d,val:AggregatedVal};
 		}).filter(function(d) { return d.val !== null;});
@@ -94,7 +94,7 @@ function PieDraw(Data,SelectVals,MainDiv) {
 		g.append("path")
 			.attr("d", arc)
 			.style("fill",function(d) { return ColorPanel.Functions.GetBackgroundColor(d.data.label);})
-			.append("title").text(function(d) {return PivotSettings.Aggregators[SelectVals.AggregatorType].name+" "+SelectVals.AggregatorAttribute+": "+d.value;});
+			.append("title").text(function(d) {return SpadeSettings.Aggregators[SelectVals.AggregatorType].name+" "+SelectVals.AggregatorAttribute+": "+d.value;});
 
 	  g.append("text")
 		.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })

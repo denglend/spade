@@ -1,4 +1,4 @@
-/* globals document, window, Image,d3, unescape, ArrayBuffer, Uint8Array, Blob, webkitURL,URL,atob,DataView,picoModal, PivotSettings, Globals */
+/* globals document, window, Image,d3, unescape, ArrayBuffer, Uint8Array, Blob, webkitURL,URL,atob,DataView,picoModal, SpadeSettings, Globals */
 
 function DisplayModal(modal) {
 	//modal.Header = header text
@@ -177,7 +177,7 @@ function CalculateAxisTicks(RangeSize,TickCount) {
 }
 
 function GetPanel(PanelName) {
-	return MatchObjectInArray(PivotSettings.Panels,"name",PanelName);
+	return MatchObjectInArray(SpadeSettings.Panels,"name",PanelName);
 }
 
 function MatchObjectInArray(Array,Attribute,Value) {

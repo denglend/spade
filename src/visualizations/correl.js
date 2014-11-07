@@ -1,7 +1,7 @@
-/* globals Globals, window,document,d3,html2canvas,ReadSelectValues,DownloadImageFile,PivotSettings,colorbrewer,ss,
+/* globals Globals, window,document,d3,html2canvas,ReadSelectValues,DownloadImageFile,SpadeSettings,colorbrewer,ss,
    CreateDomElement,Image,event,console,DisplayModal,GetPanel*/
 
-PivotSettings.Visualizations.push({
+SpadeSettings.Visualizations.push({
 			name: "Correlogram",
 			Functions: {
 				DrawFunc:CorrelDraw,

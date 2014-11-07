@@ -1,6 +1,6 @@
-/* globals PivotSettings, CreateSelectElement, Globals, Redraw,d3, MatchObjectInArray, ResetMainDivHeight  */
+/* globals SpadeSettings, CreateSelectElement, Globals, Redraw,d3, MatchObjectInArray, ResetMainDivHeight  */
 
-PivotSettings.Panels.push({
+SpadeSettings.Panels.push({
 		name:"AdvancedOptionsPanel",
 		PanelDiv:"AdvancedOptionsDiv",
 		Title: "Advanced Options",
@@ -33,7 +33,7 @@ function AdvancedOptionsPanelReadSelectValues() {
 
 function AdvancedOptionsPanelValuesToHash(VisualizationChanging) {
 	
-	var CurVis = PivotSettings.Visualizations[MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization];
+	var CurVis = SpadeSettings.Visualizations[MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel").Options.CurVisualization];
 	var CurHash = "";
 	CurHash += d3.select("#HorizTileGroup select").node().value + ";";
 	CurHash += d3.select("#VertTileGroup select").node().value  + ";";
@@ -55,7 +55,7 @@ function AdvancedOptionsPanelUpdateFromHash(Hash) {
 	//Testing ... Call Reset again in case Visualization is not the same as when Reset was originally called
 	//d3.selectAll("#AdvancedOptionsDiv div").remove();
 	
-	var CurVis = PivotSettings.Visualizations[MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization];
+	var CurVis = SpadeSettings.Visualizations[MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel").Options.CurVisualization];
 	//AdvancedOptionsPanelReset(d3.select("#AdvancedOptionsDiv"),CurVis);
 	var Options = Hash.split(";");
 	d3.select("#HorizTileGroup select").node().value = Options[0];
@@ -99,7 +99,7 @@ function AdvancedOptionsPanelReset(Div,Visualization) {
 		.selectAll("option")
 		.data(["(no split)"].concat(Object.keys(Globals.Data[0]))
 		.filter(function(el) { 
-			return PivotSettings.HiddenAttributes.FilterAttributeSelect.indexOf(el.toUpperCase()) == -1;
+			return SpadeSettings.HiddenAttributes.FilterAttributeSelect.indexOf(el.toUpperCase()) == -1;
 		}).sort())
 		.enter().append("option")
 		.attr("value",function(d,i) {return d;})
@@ -124,7 +124,7 @@ function AdvancedOptionsPanelToggleHandler(d,i) {
 		d3.select(".ArrowDown").classed("ArrowRight",true);
 		d3.select(".ArrowDown").classed("ArrowDown",false);
 	}
-	if (PivotSettings.Visualizations[MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization].Settings.RedrawOnVerticalResize !== false) {
+	if (SpadeSettings.Visualizations[MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel").Options.CurVisualization].Settings.RedrawOnVerticalResize !== false) {
 		Redraw();
 	}
 	else {

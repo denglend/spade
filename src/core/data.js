@@ -1,4 +1,4 @@
-/* globals ReadSelectValues, Globals, d3, PopulateForm, document, ParseHash, ShortenSelectKey, PivotSettings, 
+/* globals ReadSelectValues, Globals, d3, PopulateForm, document, ParseHash, ShortenSelectKey, SpadeSettings,
   		   SetEventHandlers, FilterAttributeSelectHandlerNoRedraw, VisualizationChangeHandlerNoRedraw, window,
 		   Redraw, FileReader, moment, console*/
 
@@ -115,7 +115,7 @@ function CleanupData(Data) {
 			if (isNaN(Datum[Keys[j]])) {
 				//This attribute type has a NaN value
 				console.log("Filtering out attribute '"+Keys[j]+"' because it has non-numeric values (e.g. '"+Datum[Keys[j]]+"')");
-				PivotSettings.HiddenAttributes.DisplayAttribute.push(Keys[j].toUpperCase());
+				SpadeSettings.HiddenAttributes.DisplayAttribute.push(Keys[j].toUpperCase());
 				Keys.splice(j,1);
 				j--;
 			}

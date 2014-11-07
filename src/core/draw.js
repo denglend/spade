@@ -1,4 +1,4 @@
-/* globals d3,ReadSelectValues,CalculatePivotData,PivotSettings,ReadHashFromSelectValues,document,PivotObjectToArray,Globals,FilterData,
+/* globals d3,ReadSelectValues,CalculatePivotData,SpadeSettings,ReadHashFromSelectValues,document,PivotObjectToArray,Globals,FilterData,
    CreateDomElement,window,CatalogAddFilteredData, location */
 
 function ResetMainDivHeight() {
@@ -15,8 +15,8 @@ function Redraw() {
 	var MainDiv = ResetMainDivHeight();
 	MainDiv.selectAll("*").remove();
 	
-	if (PivotSettings.Visualizations[SelectVals.VisualizationType].Functions.DrawInitFunc !== undefined) {
-		if (!PivotSettings.Visualizations[SelectVals.VisualizationType].Functions.DrawInitFunc(SelectVals)) return;
+	if (SpadeSettings.Visualizations[SelectVals.VisualizationType].Functions.DrawInitFunc !== undefined) {
+		if (!SpadeSettings.Visualizations[SelectVals.VisualizationType].Functions.DrawInitFunc(SelectVals)) return;
 	}
 	
 	//Create 2d array to generate table for tiles
@@ -89,20 +89,20 @@ function Redraw() {
 			if (TileFilteredData.length >0) {
 				var TileSubDiv = TileDiv.append("div");		//Need sub div so that title isn't overwritten by vis
 				var DataVar = {FullData: Globals.Data, FilteredFullData: FilteredData, CurData: TileFilteredData};
-				for (var i in PivotSettings.Panels) {		//Add in panel-calculated data like PivotObj and PivtArray
-					if (PivotSettings.Panels[i].Functions.CalculateData !== undefined) {
-						PivotSettings.Panels[i].Functions.CalculateData(DataVar);
+				for (var i in SpadeSettings.Panels) {		//Add in panel-calculated data like PivotObj and PivtArray
+					if (SpadeSettings.Panels[i].Functions.CalculateData !== undefined) {
+						SpadeSettings.Panels[i].Functions.CalculateData(DataVar);
 					}
 				}
 
-				if (PivotSettings.Visualizations[SelectVals.VisualizationType].Settings.TableDerived) {
+				if (SpadeSettings.Visualizations[SelectVals.VisualizationType].Settings.TableDerived) {
 					//If current visualization's tabledervied == true, call table's drawfunc before calling current vis's drawfunc
-					var TableSelectVals = PivotSettings.Visualizations[SelectVals.VisualizationType].TableSelectVals;
+					var TableSelectVals = SpadeSettings.Visualizations[SelectVals.VisualizationType].TableSelectVals;
 					if (TableSelectVals === undefined) TableSelectVals = SelectVals;
-					PivotSettings.Visualizations[0].Functions.DrawFunc(DataVar,TableSelectVals,TileSubDiv);
+					SpadeSettings.Visualizations[0].Functions.DrawFunc(DataVar,TableSelectVals,TileSubDiv);
 				}
 				//Call visualization's Draw Function
-				PivotSettings.Visualizations[SelectVals.VisualizationType].Functions.DrawFunc(DataVar,SelectVals,TileSubDiv);
+				SpadeSettings.Visualizations[SelectVals.VisualizationType].Functions.DrawFunc(DataVar,SelectVals,TileSubDiv);
 			}
 			return TileDiv.remove().node();
 		});

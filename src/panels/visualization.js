@@ -1,7 +1,7 @@
-/* globals PivotSettings, d3, CreateDomElement, Redraw, Globals, CreateSelectElement,  MatchObjectInArray, CreateAdvancedOption,
+/* globals SpadeSettings, d3, CreateDomElement, Redraw, Globals, CreateSelectElement,  MatchObjectInArray, CreateAdvancedOption,
 	PopulateForm, document, ReadHashFromSelectValues, ParseHash */
 
-PivotSettings.Panels.push({
+SpadeSettings.Panels.push({
 		name:"VisualizationPanel",
 		PanelDiv:"VisualizationDiv",
 		Title: "Visualization",
@@ -13,7 +13,7 @@ PivotSettings.Panels.push({
 
 		},
 		Options: {
-			CurVisualization: ParseHash()[PivotSettings.Panels.length] === undefined ? 0 : ParseHash()[PivotSettings.Panels.length]
+			CurVisualization: ParseHash()[SpadeSettings.Panels.length] === undefined ? 0 : ParseHash()[SpadeSettings.Panels.length]
 		}
 	});
 
@@ -28,7 +28,7 @@ function VisualizationPanelValuesToHash() {
 function VisualizationPanelUpdateFromHash(Hash) {
 	//Remove these next two lines when coding cleanup is ... cleaned up?
 	d3.select("#VisualizationType").node().value = Hash;
-	var Panel = MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel");
+	var Panel = MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel");
 	if (Panel.Options.CurVisualization != Hash) {
 		d3.select("#VisualizationType").each(VisualizationChangeHandler);
 	}
@@ -36,11 +36,11 @@ function VisualizationPanelUpdateFromHash(Hash) {
 }
 
 function VisualizationPanelReset(Div,Visualization) {
-	var Panel = MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel");
+	var Panel = MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel");
 	Div.append(CreateSelectElement).select("select").attr("id","VisualizationType").on("change",VisualizationChangeHandler);
 	Div.select("#VisualizationType")
 		.selectAll("option")
-		.data(PivotSettings.Visualizations)
+		.data(SpadeSettings.Visualizations)
 		.enter().append("option")
 		.attr("value",function(d,i) {return i;})
 		.text(function(d) {return d.name;})
@@ -56,11 +56,11 @@ function VisualizationChangeHandler(d,i) {
 function VisualizationChangeHandlerNoRedraw(d,i) {
 	var j;
 	var Visualization = this.value;
-	var VisOptionSetup = PivotSettings.Visualizations[Visualization].AdvancedOptions;
-	var VisInitFunc = PivotSettings.Visualizations[Visualization].Functions.InitFunc;
-	var VisName = PivotSettings.Visualizations[Visualization].name.replace(/ /g,"");	//No spaces b/c will be used for DOM id
+	var VisOptionSetup = SpadeSettings.Visualizations[Visualization].AdvancedOptions;
+	var VisInitFunc = SpadeSettings.Visualizations[Visualization].Functions.InitFunc;
+	var VisName = SpadeSettings.Visualizations[Visualization].name.replace(/ /g,"");	//No spaces b/c will be used for DOM id
 	var AdvancedOptionsDiv = d3.select("#VisualizationAdvancedOptions");
-	var Panel = MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel");
+	var Panel = MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel");
 
 	Globals.IgnoreHashChangeVisChanging = true;
 	Globals.SuppressHistoryEntry = true;
@@ -73,7 +73,7 @@ function VisualizationChangeHandlerNoRedraw(d,i) {
 	
 	//Uninitialize the old Visualization
 	if (Globals.PrevVisUnInitFunc !== undefined) Globals.PrevVisUnInitFunc();
-	Globals.PrevVisUnInitFunc = PivotSettings.Visualizations[Visualization].Functions.UnInitFunc;
+	Globals.PrevVisUnInitFunc = SpadeSettings.Visualizations[Visualization].Functions.UnInitFunc;
 	
 	
 	

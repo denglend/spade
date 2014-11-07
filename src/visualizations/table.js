@@ -1,7 +1,7 @@
-/* globals d3,PivotSettings,GetAttributeValueList,GenerateQizer,DownloadTextFile,ReadSelectValues,html2canvas,DownloadImageFile,
+/* globals d3,SpadeSettings,GetAttributeValueList,GenerateQizer,DownloadTextFile,ReadSelectValues,html2canvas,DownloadImageFile,
    CreateDomElement, Globals, GetPanel */
 
-PivotSettings.Visualizations.push({
+SpadeSettings.Visualizations.push({
 			name: "Table", 
 			Functions: {
 				DrawFunc: TableDraw,
@@ -48,7 +48,7 @@ function TableDrawInit() {
 }
 
 function TableDraw(Data,SelectVals,MainDiv) {
-	var AggregatorFunc = PivotSettings.Aggregators[SelectVals.AggregatorType].func;
+	var AggregatorFunc = SpadeSettings.Aggregators[SelectVals.AggregatorType].func;
 	var Table = MainDiv.append("table").classed("NoBorder",!SelectVals.VisAdvancedOptions.TableShowText).classed("MainTable",true);
 	var THead = Table.append("thead");
 	var TBody = Table.append("tbody");
@@ -58,7 +58,7 @@ function TableDraw(Data,SelectVals,MainDiv) {
 	//Add Column Headers
 	THead.append("tr")
 		.selectAll("th")
-		.data(ColNames.concat(["Row "+PivotSettings.Aggregators[SelectVals.AggregatorType].shortname]))
+		.data(ColNames.concat(["Row "+SpadeSettings.Aggregators[SelectVals.AggregatorType].shortname]))
 		.enter()
 		.append("th")
 		.text(function(d) { 
@@ -143,7 +143,7 @@ function TableDraw(Data,SelectVals,MainDiv) {
 		
 	//Add Row for Col Total 
 	var	GrandTotalArray = [];
-	var ColArray = [{val:"Col "+PivotSettings.Aggregators[SelectVals.AggregatorType].shortname,type:"header"}];
+	var ColArray = [{val:"Col "+SpadeSettings.Aggregators[SelectVals.AggregatorType].shortname,type:"header"}];
 	for (var i in ColTotalArray) {
 
 		var ColDataArray = ColTotalArray[i];
@@ -195,7 +195,7 @@ function TableDraw(Data,SelectVals,MainDiv) {
 	/*var Qizer = GenerateQizer(AllValues);
 	MainDiv.selectAll("tbody tr:not(:last-child) td:not(:last-child):not(:first-child)").each(function(d,i) {
 		if (d.showasval !=="") {
-			this.className += " "+PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+Qizer(d.showasval);
+			this.className += " "+SpadeSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+Qizer(d.showasval);
 			var BGColor = d3.select(this).style("background-color").match(/[0-9]{1,3}/g);
 			if (Math.sqrt(0.241*BGColor[0]*BGColor[0] + 0.691*BGColor[1]*BGColor[1] + 0.068*BGColor[2]*BGColor[2] ) < 130) {
 				d3.select(this).style("color","white");
@@ -296,7 +296,7 @@ function TableDraw(Data,SelectVals,MainDiv) {
 		TableRows.selectAll("td")
 			.data(function(row) {
 				return [
-					{classname: PivotSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+row},
+					{classname: SpadeSettings.ColorScales[SelectVals.ColorPanelColorScale].prefix+row},
 					{text:TableFormatNumber(domain[Qizer.range().indexOf(row)],SelectVals.AggregatorAttribute)}];
 			})
 			.enter()
@@ -315,7 +315,7 @@ function TableDraw(Data,SelectVals,MainDiv) {
 		if (Attribute === "" || Attribute === undefined) return val;
 		var Places = SelectVals.VisAdvancedOptions.TableNumberPlaces;
 		var Format = SelectVals.VisAdvancedOptions.TableNumberFormat;
-		var AggregatorName = PivotSettings.Aggregators[SelectVals.AggregatorType].shortname;
+		var AggregatorName = SpadeSettings.Aggregators[SelectVals.AggregatorType].shortname;
 		if (val === "") return "";
 		if ((Format == "Auto" && Globals.Catalog[Attribute].Percent && AggregatorName != "Count") || Format == "Percent") val *= 100;
 		val =  Math.round(val*Math.pow(10,Places))/Math.pow(10,Places);

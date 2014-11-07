@@ -1,4 +1,4 @@
-/* globals d3, Globals, PivotSettings,ParseHash,Redraw, console, AddNewFilterRowHandler, FilterAttributeSelectHandlerNoRedraw, 
+/* globals d3, Globals, SpadeSettings,ParseHash,Redraw, console, AddNewFilterRowHandler, FilterAttributeSelectHandlerNoRedraw,
 	MatchObjectInArray */
 
 function PopulateForm(container) {
@@ -8,24 +8,24 @@ function PopulateForm(container) {
 	var HashObj = ParseHash();
 	HeaderDiv.selectAll("*").remove();
 	
-	for (var Panel in PivotSettings.Panels) {
+	for (var Panel in SpadeSettings.Panels) {
 		
-		var CurVis = PivotSettings.Visualizations[MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization];
-		if (CurVis.Panels[PivotSettings.Panels[Panel].name] !== undefined) {
-			PivotSettings.Panels[Panel].Active = true;
-			CurHeaderDiv = HeaderDiv.append("div").attr("id",PivotSettings.Panels[Panel].PanelDiv);		//Create Div for this panel
-			var PanelTitle = CurVis.Panels[PivotSettings.Panels[Panel].name].PanelName;
-			if (PanelTitle === undefined) PanelTitle = PivotSettings.Panels[Panel].Title;
+		var CurVis = SpadeSettings.Visualizations[MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel").Options.CurVisualization];
+		if (CurVis.Panels[SpadeSettings.Panels[Panel].name] !== undefined) {
+			SpadeSettings.Panels[Panel].Active = true;
+			CurHeaderDiv = HeaderDiv.append("div").attr("id",SpadeSettings.Panels[Panel].PanelDiv);		//Create Div for this panel
+			var PanelTitle = CurVis.Panels[SpadeSettings.Panels[Panel].name].PanelName;
+			if (PanelTitle === undefined) PanelTitle = SpadeSettings.Panels[Panel].Title;
 			CurHeaderDiv.append("h4").attr("class","PivotHeading").text(PanelTitle);					//Add the panel's title
-			PivotSettings.Panels[Panel].Functions.ResetPanel(CurHeaderDiv,CurVis);						//Call the panel's Reset function
-			if (HashObj[Panel] !== undefined) PivotSettings.Panels[Panel].Functions.UpdatePanelFromHash(HashObj[Panel]);	//Update panel's contents
+			SpadeSettings.Panels[Panel].Functions.ResetPanel(CurHeaderDiv,CurVis);						//Call the panel's Reset function
+			if (HashObj[Panel] !== undefined) SpadeSettings.Panels[Panel].Functions.UpdatePanelFromHash(HashObj[Panel]);	//Update panel's contents
 		}
 		else {
-			PivotSettings.Panels[Panel].Active = false;
+			SpadeSettings.Panels[Panel].Active = false;
 		}
 	}
 	//Call Visualization's init function
-	var InitFunc = PivotSettings.Visualizations[MatchObjectInArray(PivotSettings.Panels,"name","VisualizationPanel").Options.CurVisualization].Functions.InitFunc;
+	var InitFunc = SpadeSettings.Visualizations[MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel").Options.CurVisualization].Functions.InitFunc;
 	if (InitFunc !== undefined) InitFunc();
 	}
 
@@ -35,8 +35,8 @@ function SetSelectValuesFromHash() {
 	
 	var HashObj = ParseHash();
 	for (var i in HashObj) {
-		if (PivotSettings.Panels[i].Active) {
-			PivotSettings.Panels[i].Functions.UpdatePanelFromHash(HashObj[i]);	
+		if (SpadeSettings.Panels[i].Active) {
+			SpadeSettings.Panels[i].Functions.UpdatePanelFromHash(HashObj[i]);
 		}
 	}
 	return;
@@ -47,9 +47,9 @@ function ReadSelectValues() {
 	
 
 	var RetVal = {};
-	for (var Panel in PivotSettings.Panels) {
-		if (PivotSettings.Panels[Panel].Active) {
-			var CurRetVal = PivotSettings.Panels[Panel].Functions.ReadSelectValues();
+	for (var Panel in SpadeSettings.Panels) {
+		if (SpadeSettings.Panels[Panel].Active) {
+			var CurRetVal = SpadeSettings.Panels[Panel].Functions.ReadSelectValues();
 			for (var i in CurRetVal) RetVal[i] = CurRetVal[i];
 		}
 	}
@@ -74,9 +74,9 @@ function ReadHashFromSelectValues(VisualizationChanging) {
 	if (VisualizationChanging === undefined) VisualizationChanging = false;
 	
 	var CurHash = "";
-	for (var i=0;i<PivotSettings.Panels.length;i++) {
-		if (PivotSettings.Panels[i].Active) {
-			CurHash += i+"="+PivotSettings.Panels[i].Functions.PanelValuesToHash(VisualizationChanging) + "&";
+	for (var i=0;i<SpadeSettings.Panels.length;i++) {
+		if (SpadeSettings.Panels[i].Active) {
+			CurHash += i+"="+SpadeSettings.Panels[i].Functions.PanelValuesToHash(VisualizationChanging) + "&";
 		}
 	}
 	CurHash = CurHash.slice(0,-1);

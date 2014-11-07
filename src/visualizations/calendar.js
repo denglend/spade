@@ -1,8 +1,8 @@
-/* globals PivotSettings,d3,DisplayModal,moment,GenerateQizer,html2canvas,ReadSelectValues,DownloadImageFile,CreateDomElement, GetPanel */
+/* globals SpadeSettings,d3,DisplayModal,moment,GenerateQizer,html2canvas,ReadSelectValues,DownloadImageFile,CreateDomElement, GetPanel */
 
 //Inspired by http://bl.ocks.org/mbostock/4063318 who was in turn inspired by http://stat-computing.org/dataexpo/2009/posters/wicklin-allison.pdf
 
-PivotSettings.Visualizations.push({
+SpadeSettings.Visualizations.push({
 			name: "Calendar",
 			Functions: {
 				DrawFunc:CalendarDraw,
@@ -78,7 +78,7 @@ function CalendarDraw(Data,SelectVals,MainDiv) {
 				CurDate.setDate(CurDate.getDate() + el);
 				var FormattedDate = CurDate.yyyymmdd();
 				var PivotList = Data.PivotObj[FormattedDate];
-				var AggregatedVal = PivotList === undefined ? undefined : PivotSettings.Aggregators[SelectVals.AggregatorType].func(PivotList);
+				var AggregatedVal = PivotList === undefined ? undefined : SpadeSettings.Aggregators[SelectVals.AggregatorType].func(PivotList);
 				if (AggregatedVal !== undefined) ColorPanelFunctions.AddData(AggregatedVal,MainDiv);
 				return {Date:FormattedDate,Invisible:CurDate.getFullYear() != CurYear ? true : false,Val:AggregatedVal};
 			});
