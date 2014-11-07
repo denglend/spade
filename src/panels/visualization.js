@@ -65,9 +65,6 @@ function VisualizationChangeHandlerNoRedraw(d,i) {
 	Globals.IgnoreHashChangeVisChanging = true;
 	Globals.SuppressHistoryEntry = true;
 	document.location.hash = ReadHashFromSelectValues(true);
-	//testing
-	//location.replace("#"+ReadHashFromSelectValues(true));
-	//testing
 	Panel.Options.CurVisualization = Visualization;
 	
 	PopulateForm();
