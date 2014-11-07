@@ -1,10 +1,19 @@
 Version 0.3.1:
+	New Features:
+		Pie - Now has a "doughnut" option 
+		Added a Green-Blue color scale
+		Data sets can now have a "default view" which will be automatically set when that dataset is loaded
 
 	Fixes:
 		Mosaic - Removed option to turn off exploded mode to make moot display issues in non-exploded mode.
+		Contrasting colors actually contrast now, when there are fewer than 7 levels in the color scale.
+		Text color is white when displayed on a dark background across all visualizations, not just in Table
+		Will now read the state correctly from the URL (e.g. if you refresh, you'll be in the same place you left off)
+		Back button now works (known issue: forward button still does not)
 		
 	Other Changes:
 		Speed-up in date parsing - will be most evident in large data sets with lots of repeated dates
+		DataInfo - Now shows total number of rows in dataset
 
 
 Version 0.3.0:
