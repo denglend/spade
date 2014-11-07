@@ -168,7 +168,7 @@ function GenerateQizer(ValueArray) {
 
 	var domain,range;
 	ValueArray = ValueArray.map(function(d) {return isNaN(d) ? d : +d;});
-	var UniqueValues = d3.set(ValueArray).values();
+	var UniqueValues = d3.set(ValueArray).values().map(function(d) {return isNaN(d) ? d : +d;});  //(set converts back to string...)
 	var AllNumbers = ValueArray.filter(function(d) {return isNaN(d);}).length === 0;
 	var QizerObj = {func:null,shades:null};
 
