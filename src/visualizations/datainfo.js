@@ -14,8 +14,7 @@ SpadeSettings.Visualizations.push({
 				AdvancedOptionsPanel: {}
 			},
 			AdvancedOptions: [ 
-			],
-			HashNames: []
+			]
 		});
 
 function DataInfoDraw(UnusedData,SelectVals,MainDiv) {

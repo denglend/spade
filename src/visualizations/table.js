@@ -36,8 +36,7 @@ SpadeSettings.Visualizations.push({
 				FilterPanel: {},
 				AdvancedOptionsPanel: {},
 				ColorPanel: {ColorScale: true}
-			},
-			HashNames: ["NumberFormat","NumberPlaces","NumberShowAs","ShowText","ShowHeaders","ShowLegend","ShowTotals"] //Values to save in hash
+			}
 		});
 
 /* ------------------------------------------------------------------------------------------------------------ */

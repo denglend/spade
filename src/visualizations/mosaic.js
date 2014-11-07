@@ -36,8 +36,7 @@ SpadeSettings.Visualizations.push({
 				{type:"Text",id:"ColorMin",title:"Color Min:"},
 				{type:"Text",id:"ColorMax",title:"Color Max:"},
 				{type:"Button",id:"ExportImage",text:"Export Image",func:MosaicExportImage}
-			], 
-			HashNames: ["ShowText","ShowTitle","Tooltip","Size","ColorMin","ColorMax"]
+			]
 		});
 
 /* ------------------------------------------------------------------------------------------------------------ */

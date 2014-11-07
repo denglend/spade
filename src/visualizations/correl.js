@@ -29,8 +29,7 @@ SpadeSettings.Visualizations.push({
 				{type:"Check",id:"ShowLine",title:"Show Line:",checked:false},
 				{type:"Check",id:"DarkBackground",title:"Dark Background:",checked:false},
 				{type:"Button",id:"ExportImage",text:"Export Image",func:CorrelExportImage}
-			],
-			HashNames: ["Size","ShowStatistics","ShowLine","DarkBackground"]
+			]
 		});
 
 var CorrelSettings = {
