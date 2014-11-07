@@ -1,4 +1,4 @@
-/* globals d3,SpadeSettings,document,window,Globals,GenerateQizer, GetPanel */
+/* globals d3,SpadeSettings,document,window,Globals, GetPanel */
 
 // Might still be a few lines of code left from: http://bl.ocks.org/mbostock/3887235
 
@@ -65,9 +65,7 @@ function PieDraw(Data,SelectVals,MainDiv) {
 			AllValues.push(AggregatedVal);
 			return {label:d,val:AggregatedVal};
 		}).filter(function(d) { return d.val !== null;});
-	
-		//var Qizer = GenerateQizer(AllValues);
-		//var Qizer = GenerateQizer(Globals.Catalog[SelectVals.Split2Attribute].FilteredUniqueList);
+
 		var ColorPanel = GetPanel("ColorPanel");
 		Globals.Catalog[SelectVals.Split2Attribute].FilteredUniqueList.forEach(function(d) {ColorPanel.Functions.AddData(d,MainDiv);});
 

@@ -1,4 +1,4 @@
-/* globals SpadeSettings,d3,DisplayModal,moment,GenerateQizer,html2canvas,ReadSelectValues,DownloadImageFile,CreateDomElement, GetPanel */
+/* globals SpadeSettings,d3,DisplayModal,moment,html2canvas,ReadSelectValues,DownloadImageFile,CreateDomElement, GetPanel */
 
 //Inspired by http://bl.ocks.org/mbostock/4063318 who was in turn inspired by http://stat-computing.org/dataexpo/2009/posters/wicklin-allison.pdf
 

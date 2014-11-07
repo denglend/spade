@@ -1,4 +1,4 @@
-/* globals d3, SpadeSettings, ReadSelectValues, Globals,window,html2canvas,DownloadImageFile,event,document,GenerateQizer, GetPanel */
+/* globals d3, SpadeSettings, ReadSelectValues, Globals,window,html2canvas,DownloadImageFile,event,document, GetPanel */
 
 SpadeSettings.Visualizations.push({
 			name: "Mosaic", 
