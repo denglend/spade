@@ -27,6 +27,7 @@ SpadeSettings.Visualizations.push({
 				ColorPanel: {ColorScale: true}
 			},
 			AdvancedOptions: [ 
+				{type:"Check",id:"Doughnut",title:"Doughnut:",checked:false},
 			]
 		});
 
@@ -72,7 +73,7 @@ function PieDraw(Data,SelectVals,MainDiv) {
 
 		var arc = d3.svg.arc()
 			.outerRadius(Radius - 10)
-			.innerRadius(0);
+			.innerRadius(function() {return SelectVals.VisAdvancedOptions.PieDoughnut ? (Radius-10)/2.5 : 0;});
 
 		var pie = d3.layout.pie()
 			.sort(null)
