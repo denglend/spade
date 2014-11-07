@@ -1,5 +1,5 @@
 /* globals PivotSettings, d3, CreateDomElement, Redraw, Globals, CreateSelectElement, document, ProcessLoadedData, MatchObjectInArray,
-	ReadHashFromSelectValues, GetPanel */
+	ReadHashFromSelectValues, GetPanel, ParseHash */
 
 PivotSettings.Panels.push({
 		name:"DataSetPanel",
@@ -50,9 +50,22 @@ function DataSetPanelReset(Div,Visualization) {
 function DataSetChangeEvent() {
 	var Panel = MatchObjectInArray(PivotSettings.Panels,"name","DataSetPanel");
 	
-	if (Panel.Options.CurDataSet !== "" ) {
+	if (Panel.Options.CurDataSet !== "" ) {	// Don't mess with the hash if this is during startup
 		Globals.IgnoreHashChange = true;
-		document.location.hash = PivotSettings.Panels.indexOf(GetPanel("DataSetPanel"))+"="+this.value;
+		var CurHashVal = MatchObjectInArray(PivotSettings.DataSets,"name",this.value).defaulthash;
+		if (CurHashVal === undefined) {
+			document.location.hash = PivotSettings.Panels.indexOf(GetPanel("DataSetPanel"))+"="+this.value;
+
+
+		}
+		else {
+			//These next couple of lines are a big hack and need to be rewritten
+			PivotSettings.Panels.forEach(function(d) {d.Active = false;});	//Should this move out of the if block?  Necessary at all?
+			document.location.hash = CurHashVal;
+			var VisIndex = PivotSettings.Panels.indexOf(GetPanel("VisualizationPanel"));
+			GetPanel("VisualizationPanel").Options.CurVisualization = ParseHash()[VisIndex] === undefined ? 0 : ParseHash()[VisIndex];
+
+		}
 	}
 	Panel.Options.CurDataSet = this.value;
 	if (Panel.Options.CurDataSet === "Upload Data Set") {
