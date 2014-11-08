@@ -1,9 +1,9 @@
 /* globals d3, Globals, SpadeSettings,ParseHash,Redraw, console, AddNewFilterRowHandler, FilterAttributeSelectHandlerNoRedraw,
-	MatchObjectInArray */
+	MatchObjectInArray, ToggleHeaderRollup */
 
 function PopulateForm(container) {
 	//Populate the Aggregator Types into the Aggregator Option
-	var HeaderDiv = d3.select("#HeaderDiv");
+	var HeaderDiv = d3.select("#HeaderDiv").classed("HeaderOpen",true).classed("HeaderClosed",false);
 	var CurHeaderDiv;
 	var HashObj = ParseHash();
 	HeaderDiv.selectAll("*").remove();
@@ -27,7 +27,8 @@ function PopulateForm(container) {
 	//Call Visualization's init function
 	var InitFunc = SpadeSettings.Visualizations[MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel").Options.CurVisualization].Functions.InitFunc;
 	if (InitFunc !== undefined) InitFunc();
-	}
+	HeaderDiv.append("div").attr("id","HeaderRollDiv").on("click",ToggleHeaderRollup);
+}
 
 function SetSelectValuesFromHash() {
 	//Set the select values on the page based on the hash
