@@ -75,7 +75,8 @@ function VisualizationChangeHandlerNoRedraw(d,i) {
 	if (Globals.PrevVisUnInitFunc !== undefined) Globals.PrevVisUnInitFunc();
 	Globals.PrevVisUnInitFunc = SpadeSettings.Visualizations[Visualization].Functions.UnInitFunc;
 	
-	
+	//Scroll MainDiv to top
+	document.getElementById("MainDiv").scrollTop = 0;
 	
 	//Call Visualization Init
 	if (VisInitFunc !== undefined) VisInitFunc();
