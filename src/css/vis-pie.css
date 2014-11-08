@@ -4,6 +4,7 @@
 
 .PieChartDiv {
 	display:inline-block;
+	position:relative;
 }
 
 .PieChartTitle { 

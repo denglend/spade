@@ -28,6 +28,7 @@ SpadeSettings.Visualizations.push({
 				{type:"Check",id:"ShowStatistics",title:"Show Statistics:",checked:false},
 				{type:"Check",id:"ShowLine",title:"Show Line:",checked:false},
 				{type:"Check",id:"DarkBackground",title:"Dark Background:",checked:false},
+				{type:"Check",id:"ShowLegend",title:"Show Legend:",checked:true},
 				{type:"Button",id:"ExportImage",text:"Export Image",func:CorrelExportImage}
 			]
 		});
@@ -40,8 +41,8 @@ var CorrelSettings = {
 	BoxInnerPadding: 4,							//Doesn't actually function
 	StatsBoxHeight: 40,							//Height of the box that reports correlation and significance
 	StatsBoxTopPadding:5,
-	LegendTopPadding:50,						//Amount of space from bottom of chart to start of legend
-	LegendLeftPadding: 10,
+	LegendTopPadding:0,						//Amount of space from bottom of chart to start of legend
+	LegendLeftPadding: 0,
 	CanvasTopPadding: 20,							//Amount of padding from top of Canvas element to start of chart
 	CanvasRightPadding:25,
 	CanvasRightMargin: 30,						//Amount of space to reserve between Canvas width and window.innerWidth
@@ -115,11 +116,7 @@ function CorrelDraw(Data,SelectVals,MainDiv) {
 	var LeftPadding = ((window.innerWidth-CorrelSettings.CanvasRightMargin-CorrelSettings.CanvasRightPadding)-(NumAttributes*CorrelGlobals.BoxSize))/2;
 	LeftPadding  = LeftPadding < 0 ? 0 : LeftPadding;
 	
-	var NumberOfLegendEntries =  7;
-	var CanvasHeight = 22*NumberOfLegendEntries + 
-		NumAttributes*(CorrelGlobals.BoxSize+CorrelSettings.StatsBoxHeight) + 
-		CorrelSettings.LegendTopPadding + 
-		CorrelSettings.CanvasTopPadding;
+	var CanvasHeight = 	NumAttributes*(CorrelGlobals.BoxSize+CorrelSettings.StatsBoxHeight) + CorrelSettings.CanvasTopPadding;
 	
 	var CanvasWidth = NumAttributes*CorrelGlobals.BoxSize + CorrelSettings.CanvasRightMargin+CorrelSettings.CanvasRightPadding;
 	
@@ -135,6 +132,7 @@ function CorrelDraw(Data,SelectVals,MainDiv) {
 	CorrelDrawLabels(Context);
 	CorrelDrawAxes(Context);
 	CorrelPlot(Context,Data.CurData,SelectVals);
+	if (SelectVals.VisAdvancedOptions.CorrelogramShowLegend) MainDiv.append(GetPanel("ColorPanel").Functions.GetLegend);
 }
 
 function CalculateCorrelGlobals(FilteredData,SelectVals) {

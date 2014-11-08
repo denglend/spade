@@ -28,6 +28,7 @@ SpadeSettings.Visualizations.push({
 			},
 			AdvancedOptions: [ 
 				{type:"Check",id:"Doughnut",title:"Doughnut:",checked:false},
+				{type:"Check",id:"ShowLegend",title:"Show Legend:",checked:true},
 			]
 		});
 
@@ -43,7 +44,7 @@ function PieDraw(Data,SelectVals,MainDiv) {
 		/* jshint loopfunc: true */
 		if (CurCircleSplit == "(no split)") {
 			CanvasWidth = document.getElementById("MainDiv").scrollWidth-40;
-			CanvasHeight = window.innerHeight-d3.select("#HeaderDiv").node().offsetHeight-60;
+			CanvasHeight = window.innerHeight-d3.select("#HeaderDiv").node().offsetHeight-100;
 		}
 		else {
 			CanvasWidth = 200;
@@ -101,6 +102,12 @@ function PieDraw(Data,SelectVals,MainDiv) {
 		.style("text-anchor", "middle")
 	  	.style("fill",function(d) { return ColorPanel.Functions.GetTextColor(d.data.label);})
 		.text(function(d) { return d.data.label; });
+	if (CurCircleSplit == "(no split)" && SelectVals.VisAdvancedOptions.PieShowLegend) {
+		CurDiv.append(GetPanel("ColorPanel").Functions.GetLegend)
+			.style("position","absolute")
+			.style("bottom","0px");
+	}
+
 	}
 	
 }
