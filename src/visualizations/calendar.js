@@ -27,6 +27,7 @@ SpadeSettings.Visualizations.push({
 				ColorPanel: {ColorScale: true}
 			},
 			AdvancedOptions: [
+				{type:"Check",id:"ShowLegend",title:"Show Legend:",checked:true},
 				{type:"Button",id:"ExportImage",text:"Export Image",func:CalendarExportImage}
 			]
 		});
@@ -144,6 +145,7 @@ function CalendarDraw(Data,SelectVals,MainDiv) {
 		return TempTable.children[0].children[0];
 	},
 	":first-child");	
+	if (SelectVals.VisAdvancedOptions.CalendarShowLegend) MainDiv.append(function() {return GetPanel("ColorPanel").Functions.GetLegend(true);});
 }
 
 

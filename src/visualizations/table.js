@@ -202,7 +202,7 @@ function TableDraw(Data,SelectVals,MainDiv) {
 		});
 	
 	//Draw Legend if option is set
-	//if (SelectVals.VisAdvancedOptions.TableShowLegend) TableDrawLegend(Qizer,MainDiv,SelectVals);
+	if (SelectVals.VisAdvancedOptions.TableShowLegend) MainDiv.append(GetPanel("ColorPanel").Functions.GetLegend);
 	
 	return;
 	
