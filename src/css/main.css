@@ -49,6 +49,38 @@ select {
 	border-radius: 5px;
 	background-color:#f8f8f8;
 	border: 1px #BBB solid;
+	position:relative;
+}
+#HeaderDiv.HeaderOpen {
+	overflow:auto;
+}
+#HeaderDiv.HeaderClosed {
+	overflow:hidden;
+	height:30px;
+}
+#HeaderDiv.HeaderClosed > div {
+	visibility:hidden;
+}
+
+#HeaderDiv > #HeaderRollDiv {
+	position:absolute;
+	background-color: #EEE;
+	top:0px;
+	right:0px;
+	border-radius: 5px;
+	cursor:pointer;
+	width:15px;
+	padding:3px;
+	font-size:15px;
+	visibility:visible;
+	margin-right:4px;
+	margin-top:4px;
+}
+#HeaderDiv.HeaderOpen #HeaderRollDiv::before {
+	content: "\25b2";
+}
+#HeaderDiv.HeaderClosed #HeaderRollDiv::before {
+	content: "\25bc";
 }
 #HeaderDiv > div {
 	vertical-align:top;

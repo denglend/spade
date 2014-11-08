@@ -1,5 +1,5 @@
 /* globals d3, window,Redraw,SetSelectValuesFromHash,Globals,SpadeSettings,CreateDomElement,CreateAdvancedOption,
-   ReloadDataSet,ResetMainDivHeight,ReadSelectValues,VisualizationChangeHandlerNoRedraw */
+   ReloadDataSet,ResetMainDivHeight,ReadSelectValues,VisualizationChangeHandlerNoRedraw,GetPanel */
 function SetEventHandlers() {
 	
 	d3.select(window).on('resize', Redraw); 
@@ -22,3 +22,12 @@ function SetEventHandlers() {
 	};
 }
 
+function ToggleHeaderRollup() {
+	d3.select("#HeaderDiv").classed("HeaderOpen",function() {return !d3.select(this).classed("HeaderOpen");});
+	d3.select("#HeaderDiv").classed("HeaderClosed",function() {return !d3.select(this).classed("HeaderClosed");});
+	if (SpadeSettings.Visualizations[GetPanel("VisualizationPanel").Options.CurVisualization].Settings.RedrawOnVerticalResize !== false) {
+		Redraw();
+	}
+
+
+}
