@@ -13,6 +13,7 @@ SpadeSettings.Panels.push({
 			DataInit: ColorPanelDataInit,
 			GetBackgroundColor: ColorPanelBackground,
 			GetTextColor: ColorPanelText,
+			GetLegend: ColorPanelCreateLegend,
 			GenerateQizer: GenerateQizer
 		}
 	});
@@ -169,15 +170,16 @@ function GenerateQizer(ValueArray) {
 	var domain,range;
 	ValueArray = ValueArray.map(function(d) {return isNaN(d) ? d : +d;});
 	var UniqueValues = d3.set(ValueArray).values().map(function(d) {return isNaN(d) ? d : +d;});  //(set converts back to string...)
-	var AllNumbers = ValueArray.filter(function(d) {return isNaN(d);}).length === 0;
-	var QizerObj = {func:null,shades:null};
+	var QizerObj = {func:null,shades:null, AllNumbers: ValueArray.filter(function(d) {return isNaN(d);}).length === 0};
 
-	if (AllNumbers && UniqueValues.length > SpadeSettings.NumberOfShades) {
+	if (QizerObj.AllNumbers && UniqueValues.length > SpadeSettings.NumberOfShades) {
 		//For continuous data, use quantize
 		ValueArray.sort(d3.ascending);
 		if (ValueArray[0] == ValueArray[ValueArray.length-1]) return function(a) {return 0;};		//If all #s are the same in list, always return 0
 		QizerObj.shades = SpadeSettings.NumberOfShades;
 		QizerObj.func = d3.scale.quantize().domain(ValueArray).range(d3.range(SpadeSettings.NumberOfShades));
+		//Create domvals for legend to use
+		QizerObj.domvals = d3.range(d3.min(ValueArray),d3.max(ValueArray),(d3.max(ValueArray)-d3.min(ValueArray))/QizerObj.shades);
 		return QizerObj;
 	}
 	else {
@@ -192,5 +194,33 @@ function GenerateQizer(ValueArray) {
 				QizerObj.rangevals[QizerObj.domvals.indexOf(+input)];
 		};
 		return QizerObj;
+	}
+}
+
+
+function ColorPanelCreateLegend(Horiz) {
+	Horiz = Horiz === undefined ? false : Horiz;
+	var ScaleElement = document.getElementById("ColorPanelColorScale");
+	var Scale = SpadeSettings.ColorScales[ScaleElement.value].js;
+	var Precision = ColorPanelSettings.Qizer.AllNumbers ? GetPrecision(ColorPanelSettings.Qizer.domvals) : false;
+	var LegendDiv = CreateDomElement("<div></div>");
+	var LegendRows = d3.select(LegendDiv)
+		.attr("class","ColorPanelLegendDiv")
+		.classed("Horiz",Horiz)
+		.selectAll("div")
+		.data(ColorPanelSettings.Qizer.domvals)
+		.enter()
+		.append("div");
+	LegendRows.append("div").style("background-color",function(d,i) {return colorbrewer[Scale][ColorPanelSettings.Qizer.shades][i];});
+	LegendRows.append("div").text(function(d) { return Precision ? parseFloat(d.toPrecision(Precision)) : d;});
+	return LegendDiv;
+
+	function GetPrecision(domvals) {
+		var i;
+		for (i=1;i<10;i++) {
+			/* jshint loopfunc: true */
+			if (domvals.reduce(function(a,b) {if (a===false) return false; if (a.toPrecision(i) == b.toPrecision(i)) return false; return b;}) !== false) break;
+		}
+		return i;
 	}
 }
