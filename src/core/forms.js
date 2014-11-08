@@ -3,7 +3,7 @@
 
 function PopulateForm(container) {
 	//Populate the Aggregator Types into the Aggregator Option
-	var HeaderDiv = d3.select("#HeaderDiv").classed("HeaderOpen",true).classed("HeaderClosed",false);
+	var HeaderDiv = d3.select("#HeaderDiv");
 	var CurHeaderDiv;
 	var HashObj = ParseHash();
 	HeaderDiv.selectAll("*").remove();
@@ -11,10 +11,11 @@ function PopulateForm(container) {
 	for (var Panel in SpadeSettings.Panels) {
 		
 		var CurVis = SpadeSettings.Visualizations[MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel").Options.CurVisualization];
-		if (CurVis.Panels[SpadeSettings.Panels[Panel].name] !== undefined) {
+		var ForcePanel = SpadeSettings.Panels[Panel].Options !== undefined ? SpadeSettings.Panels[Panel].Options.force : false;
+		if (CurVis.Panels[SpadeSettings.Panels[Panel].name] !== undefined || ForcePanel) {
 			SpadeSettings.Panels[Panel].Active = true;
 			CurHeaderDiv = HeaderDiv.append("div").attr("id",SpadeSettings.Panels[Panel].PanelDiv);		//Create Div for this panel
-			var PanelTitle = CurVis.Panels[SpadeSettings.Panels[Panel].name].PanelName;
+			var PanelTitle = CurVis.Panels[SpadeSettings.Panels[Panel].name] !== undefined ? CurVis.Panels[SpadeSettings.Panels[Panel].name].PanelName : undefined;
 			if (PanelTitle === undefined) PanelTitle = SpadeSettings.Panels[Panel].Title;
 			CurHeaderDiv.append("h4").attr("class","PivotHeading").text(PanelTitle);					//Add the panel's title
 			SpadeSettings.Panels[Panel].Functions.ResetPanel(CurHeaderDiv,CurVis);						//Call the panel's Reset function
@@ -27,7 +28,6 @@ function PopulateForm(container) {
 	//Call Visualization's init function
 	var InitFunc = SpadeSettings.Visualizations[MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel").Options.CurVisualization].Functions.InitFunc;
 	if (InitFunc !== undefined) InitFunc();
-	HeaderDiv.append("div").attr("id","HeaderRollDiv").on("click",ToggleHeaderRollup);
 }
 
 function SetSelectValuesFromHash() {
@@ -36,7 +36,7 @@ function SetSelectValuesFromHash() {
 	
 	var HashObj = ParseHash();
 	for (var i in HashObj) {
-		if (SpadeSettings.Panels[i].Active) {
+		if (SpadeSettings.Panels[i] !== undefined && SpadeSettings.Panels[i].Active) {
 			SpadeSettings.Panels[i].Functions.UpdatePanelFromHash(HashObj[i]);
 		}
 	}
