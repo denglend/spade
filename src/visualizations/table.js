@@ -81,15 +81,18 @@ function TableDraw(Data,SelectVals,MainDiv) {
 	var TableCells = TableRows.selectAll("td")
 		.data(function(row) {
 			var RowTotalArray = [];									//Keep track of all data points for this row so can calculate row total
+			var IndexAdj = ColNames[0] == "Row Name" ? 1 : 0;		//Hack hack
 			var RowArray = ColNames.map(function(column,index) {
 				if (column != "Row Name") {
-					if (ColTotalArray[column] === undefined) ColTotalArray[column] = []; //
+					//if (ColTotalArray[column] === undefined) ColTotalArray[column] = []; //
+					if (ColTotalArray[index-IndexAdj] === undefined) ColTotalArray.push( []); //
 					
 					if (row.val[index].val.length === 0) {		//If no data points at this intersection, return blank cell
 						return {col:column, val: "",fullval:"",showasval:""};
 					}
 					else {										//Otherwise display aggregated value
-						ColTotalArray[column] = ColTotalArray[column].concat(row.val[index].val);
+						//ColTotalArray[column] = ColTotalArray[column].concat(row.val[index].val);
+						ColTotalArray[index-IndexAdj] = ColTotalArray[index-IndexAdj].concat(row.val[index].val);
 						RowTotalArray = RowTotalArray.concat(row.val[index].val);
 						var AggregatedVal = AggregatorFunc(row.val[index].val);
 						return {

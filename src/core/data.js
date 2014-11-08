@@ -87,6 +87,9 @@ function CatalogData(Data) {
 					}
 				}
 			}
+			else if (CurVal === "") {
+				//Anything need to be done here other than prevent the else clause from coercing value into a 0?
+			}
 			else { 													//current value is numeric
 				Globals.Catalog[CurKey].Date = false;
 				Data[i][CurKey] = +Data[i][CurKey];
