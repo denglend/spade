@@ -29,6 +29,7 @@ SpadeSettings.Visualizations.push({
 			AdvancedOptions: [ 
 				{type:"Check",id:"Doughnut",title:"Doughnut:",checked:false},
 				{type:"Check",id:"ShowLegend",title:"Show Legend:",checked:true},
+				{type:"Check",id:"ShowText",title:"Show Text:",checked:true}
 			]
 		});
 
@@ -96,17 +97,20 @@ function PieDraw(Data,SelectVals,MainDiv) {
 			.style("fill",function(d) { return ColorPanel.Functions.GetBackgroundColor(d.data.label);})
 			.append("title").text(function(d) {return SpadeSettings.Aggregators[SelectVals.AggregatorType].name+" "+SelectVals.AggregatorAttribute+": "+d.value;});
 
-	  g.append("text")
-		.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-		.attr("dy", ".35em")
-		.style("text-anchor", "middle")
-	  	.style("fill",function(d) { return ColorPanel.Functions.GetTextColor(d.data.label);})
-		.text(function(d) { return d.data.label; });
-	if (CurCircleSplit == "(no split)" && SelectVals.VisAdvancedOptions.PieShowLegend) {
-		CurDiv.append(GetPanel("ColorPanel").Functions.GetLegend)
-			.style("position","absolute")
-			.style("bottom","0px");
-	}
+		if (SelectVals.VisAdvancedOptions.PieShowText) {
+			g.append("text")
+				.attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+				.attr("dy", ".35em")
+				.style("text-anchor", "middle")
+				.style("fill",function(d) { return ColorPanel.Functions.GetTextColor(d.data.label);})
+				.text(function(d) { return d.data.label; });
+		}
+
+		if (CurCircleSplit == "(no split)" && SelectVals.VisAdvancedOptions.PieShowLegend) {
+			CurDiv.append(GetPanel("ColorPanel").Functions.GetLegend)
+				.style("position","absolute")
+				.style("bottom","0px");
+		}
 
 	}
 	
