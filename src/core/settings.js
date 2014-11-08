@@ -46,7 +46,6 @@ var SpadeSettings = {
 var Globals = {
 	Data: null,
 	CurAttributes: [],
-	SavedHeaderDiv: "",				//Used to save the HTML from the Header at initial page load so that it can be restored when loading a new data set
 	Catalog: [],						//Used to store information about each Attribute (e.g. whether it's numerical or categorical)
 	IgnoreHashChange: false,
 	URLParams: null,
