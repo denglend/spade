@@ -1,0 +1,18 @@
+.ColorPanelLegendDiv {
+	margin-top: 8px;
+}
+
+.ColorPanelLegendDiv div div:first-child {
+	height:16px;
+	width:16px;
+	display:inline-block;
+}
+
+.ColorPanelLegendDiv div div:last-child {
+	display:inline-block;
+}
+
+.ColorPanelLegendDiv.Horiz>div {
+	display:inline-block;
+	margin-right:10px;
+}
