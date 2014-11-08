@@ -94,7 +94,7 @@ function MosaicDraw(Data,SelectVals,MainDiv) {
 			.append("div")
 			.attr("class","MosaicColTitleDiv")
 			.style("width",function(d,i) {return d.Width*100+"%";})
-			.html(function(d) {return d.CellData[0].col;})
+			.html(function(d) {return d.CellData[0].col === "" ? "(blank)" : d.CellData[0].col;})
 			.node().offsetHeight;
 	}
 	else HeaderHeight = 0;
@@ -109,7 +109,11 @@ function MosaicDraw(Data,SelectVals,MainDiv) {
 		.append("div")
 		.attr("class","MosaicColDiv")
 		.classed("MosaicExplodedCol",true)
-		.style("width",function(d,i) {return d.Width*100- 0.5 +"%";});
+		.style("width",function(d,i) {
+			var CurWidth = d.Width*100- 0.5;
+			CurWidth = CurWidth < 0 ? 0 : CurWidth;
+			return CurWidth + "%";
+		});
 	
 
 	//var AllValues = [];
@@ -170,7 +174,8 @@ function MosaicDraw(Data,SelectVals,MainDiv) {
 
 	});
 	
-	MosaicCells.filter(function(d) {return d.showasval ==="";}).remove();			//Remove any blank cells
+	MosaicCells.filter(function(d) {return d.showasval ==="" || this.offsetHeight === 0;}).remove();			//Remove any blank cells
+	MosaicCols.filter(function(d) {return d.Width*100- 0.5 < 0;}).remove();			//Remove any blank cols
 }
 
 function MosaicTipShow(d,i) {
