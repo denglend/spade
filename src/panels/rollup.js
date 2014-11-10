@@ -1,4 +1,4 @@
-/* globals d3,SpadeSettings,document,Redraw,GetPanel, ReadHashFromSelectValues, Globals */
+/* globals d3,SpadeSettings,document,Redraw,GetPanel, ReadHashFromSelectValues, Globals,ResetMainDivHeight */
 
 SpadeSettings.Panels.push({
 		name:"RollupPanel",
@@ -47,6 +47,7 @@ function RollupPanelClickHandler() {
 	else {
 		Globals.IgnoreHashChange = true;
 		document.location.hash = ReadHashFromSelectValues();
+		ResetMainDivHeight();
 	}
 
 }
