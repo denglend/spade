@@ -1,5 +1,25 @@
 /* globals document, window, Image,d3, unescape, ArrayBuffer, Uint8Array, Blob, webkitURL,URL,atob,DataView,picoModal, SpadeSettings, Globals */
 
+function LoadingModal(Text) {
+	return DisplayModal({
+		Header:Text,
+		Type:"Loading",
+		Content:'<div class="spinner"><div class="dot1"></div><div class="dot2"></div></div>',
+		DirectOptions: {
+			overlayClose: false,
+			closeButton: false,
+			modalStyles: function(styles) {
+				styles.top = "40%";
+				return styles;
+			},
+			overlayStyles:function(styles) {
+				styles.opacity = 0.2;
+				return styles;
+			}
+		}
+	});
+}
+
 function DisplayModal(modal) {
 	//modal.Header = header text
 	//modal.Content = main content
@@ -8,13 +28,16 @@ function DisplayModal(modal) {
 	var Header = modal.Header === undefined ? "" : modal.Header;
 	var Type = modal.Type === undefined ? "Alert" : modal.Type;
 	var Content = modal.Content;
-	var TypeClasses = {Alert: "ModalAlertDiv",Pre: "ModalPreDiv",General:"ModalGeneralDiv"};
+	var TypeClasses = {Alert: "ModalAlertDiv",Pre: "ModalPreDiv",Loading:"ModalLoadingDiv",General:"ModalGeneralDiv"};
+	var HeaderClass = {ModalAlertDiv:"ModalHeaderDiv", ModalPreDiv: "ModalHeaderDiv", ModalLoadingDiv: "ModalHeaderDivLoading", ModalGeneralDiv: "ModalHeaderDiv"};
 	var Class = Object.keys(TypeClasses).indexOf(Type) != -1 ? TypeClasses[Type] : "Alert";
-	var Modal = picoModal("<div class='ModalHeaderDiv'>"+Header+"</div><div class='"+Class+"'>"+Content+"</div>");
+	var ModalObj = {content: "<div class='"+HeaderClass[Class]+"'>"+Header+"</div><div class='"+Class+"'>"+Content+"</div>"	};
+	for (var opt in modal.DirectOptions) ModalObj[opt] = modal.DirectOptions[opt];
+	var Modal = picoModal(ModalObj);
 	
 	if (modal.afterCreate !== undefined) Modal.afterCreate(modal.afterCreate);
 	Modal.afterClose(function(m) {m.destroy();});
-	Modal.show();	
+	return Modal.show();
 }
 
 function ParseHash() {

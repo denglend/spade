@@ -1,5 +1,5 @@
 /* globals SpadeSettings, d3, CreateDomElement, Redraw, Globals, CreateSelectElement, document, ProcessLoadedData, MatchObjectInArray,
-	ReadHashFromSelectValues, GetPanel, ParseHash */
+	ReadHashFromSelectValues, GetPanel, ParseHash, LoadingModal, window */
 
 SpadeSettings.Panels.push({
 		name:"DataSetPanel",
@@ -74,7 +74,13 @@ function DataSetChangeEvent() {
 	}
 	else {
 		var DataSet = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value);
-		d3.csv(DataSet.path+DataSet.file+".csv", function(d) {ProcessLoadedData(d,false);});
+		var DownloadingModal = LoadingModal("Downloading...");
+		d3.csv(DataSet.path+DataSet.file+".csv", function(d) {
+			DownloadingModal.close();
+			var ProcessingModel = LoadingModal("Processing...");
+			window.setTimeout(function() {ProcessLoadedData(d,false);ProcessingModel.close();},10);
+
+		});
 			
 	}
 }
