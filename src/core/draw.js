@@ -46,17 +46,11 @@ function RedrawInner() {
 		TileArray.push(CurTileRow);
 	}
 	
-	Globals.IgnoreHashChange = true;
-	var NewHash = ReadHashFromSelectValues();
-	if (NewHash != document.location.hash)  {
-		if (Globals.SuppressHistoryEntry) {
-			location.replace("#" + ReadHashFromSelectValues());
-			Globals.SuppressHistoryEntry = false;
-		}
-		else {
-			document.location.hash = ReadHashFromSelectValues();
-		}
 
+	var NewHash = ReadHashFromSelectValues();
+	if (NewHash != document.location.hash.slice(1))  {
+			document.location.hash = ReadHashFromSelectValues();
+			Globals.IgnoreHashChange = true;
 	}
 	
 	var TileTableRows = MainDiv.append("table").attr("id","TileTable").append("tbody")
@@ -114,6 +108,3 @@ function RedrawInner() {
 
 	return;
 }
-
-
-

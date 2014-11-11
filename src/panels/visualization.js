@@ -62,12 +62,9 @@ function VisualizationChangeHandlerNoRedraw(d,i) {
 	var AdvancedOptionsDiv = d3.select("#VisualizationAdvancedOptions");
 	var Panel = MatchObjectInArray(SpadeSettings.Panels,"name","VisualizationPanel");
 
-	Globals.IgnoreHashChangeVisChanging = true;
-	Globals.SuppressHistoryEntry = true;
-	document.location.hash = ReadHashFromSelectValues(true);
 	Panel.Options.CurVisualization = Visualization;
 	
-	PopulateForm();
+	PopulateForm(ReadHashFromSelectValues(true));
 
 	
 	

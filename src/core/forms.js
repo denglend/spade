@@ -1,11 +1,12 @@
 /* globals d3, Globals, SpadeSettings,ParseHash,Redraw, console, AddNewFilterRowHandler, FilterAttributeSelectHandlerNoRedraw,
 	MatchObjectInArray, ToggleHeaderRollup */
 
-function PopulateForm(container) {
+function PopulateForm(Hash) {
 	//Populate the Aggregator Types into the Aggregator Option
+	//If hash is provided, uses that string instead of location.hash
 	var HeaderDiv = d3.select("#HeaderDiv");
 	var CurHeaderDiv;
-	var HashObj = ParseHash();
+	var HashObj = ParseHash(Hash);
 	HeaderDiv.selectAll("*").remove();
 	
 	for (var Panel in SpadeSettings.Panels) {
