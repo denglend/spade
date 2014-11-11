@@ -199,11 +199,12 @@ function GenerateQizer(ValueArray) {
 
 
 function ColorPanelCreateLegend(Horiz) {
+	var LegendDiv = CreateDomElement("<div></div>");
+	if (ColorPanelSettings.Qizer === undefined || ColorPanelSettings.Qizer === null) return LegendDiv;
 	Horiz = Horiz === undefined ? false : Horiz;
 	var ScaleElement = document.getElementById("ColorPanelColorScale");
 	var Scale = SpadeSettings.ColorScales[ScaleElement.value].js;
 	var Precision = ColorPanelSettings.Qizer.AllNumbers ? GetPrecision(ColorPanelSettings.Qizer.domvals) : false;
-	var LegendDiv = CreateDomElement("<div></div>");
 	var LegendRows = d3.select(LegendDiv)
 		.attr("class","ColorPanelLegendDiv")
 		.classed("Horiz",Horiz)
