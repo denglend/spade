@@ -1,14 +1,18 @@
 /* globals d3,ReadSelectValues,CalculatePivotData,SpadeSettings,ReadHashFromSelectValues,document,PivotObjectToArray,Globals,FilterData,
-   CreateDomElement,window,CatalogAddFilteredData, location */
+   CreateDomElement,window,CatalogAddFilteredData, location, LoadingModal */
 
 function ResetMainDivHeight() {
 	return d3.select("#MainDiv").style("height",window.innerHeight - document.getElementById("MainDiv").offsetTop-4+"px");
 }
 
 function Redraw() {
-	//Clear Main Div
-	//Create Pivot Object
-	//Pass to Visualization's Draw Function
+	var Modal = LoadingModal("Calculating...");
+	window.setTimeout(function() {RedrawInner();Modal.close();},1);
+}
+
+
+function RedrawInner() {
+
 	var SelectVals = ReadSelectValues();
 	var FilteredData = FilterData(Globals.Data,SelectVals.Filters);
 	
@@ -107,7 +111,6 @@ function Redraw() {
 			return TileDiv.remove().node();
 		});
 		d3.selectAll(".FakeHiddenNode").remove();
-	
 
 	return;
 }
