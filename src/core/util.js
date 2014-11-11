@@ -40,11 +40,13 @@ function DisplayModal(modal) {
 	return Modal.show();
 }
 
-function ParseHash() {
+function ParseHash(Hash) {
 	//Returns an object with attr:value set to all the items in the location.hash
+	//If Hash is provided uses that string instead of location.hash
+	Hash = Hash === undefined ? document.location.hash : Hash;
 	var ParsedObj = {};
-	if (document.location.hash === "") return ParsedObj;
-	document.location.hash.substr(1).split("&").forEach(function(el, i) {
+	if (Hash === "") return ParsedObj;
+	Hash.slice(1).split("&").forEach(function(el, i) {
 		var Attr = el.split("=")[0];
 		var Val = el.split("=")[1];
 		ParsedObj[Attr] = decodeURIComponent(Val);

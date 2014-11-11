@@ -7,16 +7,10 @@ function SetEventHandlers() {
 		if (Globals.IgnoreHashChange) {
 			Globals.IgnoreHashChange = false;
 		}
-		else if (Globals.IgnoreHashChangeVisChanging) {
-			Globals.IgnoreHashChangeVisChanging = false;
-		}
 		else {
 			var OldVis = d3.select("#VisualizationType").node().value;
-			SetSelectValuesFromHash();
-			if (OldVis != d3.select("#VisualizationType").node().value) {
-				d3.select("#VisualizationType").each(VisualizationChangeHandlerNoRedraw);
-			}
-			Redraw();
+			SetSelectValuesFromHash();			//This will call VisChangeHandler if needed
+			if (OldVis == d3.select("#VisualizationType").node().value) Redraw();
 			Globals.IgnoreHashChange = false;
 		}
 	};
