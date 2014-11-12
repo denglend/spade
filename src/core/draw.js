@@ -12,7 +12,6 @@ function Redraw() {
 
 
 function RedrawInner() {
-
 	var SelectVals = ReadSelectValues();
 	var FilteredData = FilterData(Globals.Data,SelectVals.Filters);
 	

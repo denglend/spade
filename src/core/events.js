@@ -9,8 +9,9 @@ function SetEventHandlers() {
 		}
 		else {
 			var OldVis = d3.select("#VisualizationType").node().value;
+			var OldDataSet = d3.select("#DataSetSelect").node().value;
 			SetSelectValuesFromHash();			//This will call VisChangeHandler if needed
-			if (OldVis == d3.select("#VisualizationType").node().value) Redraw();
+			if (OldVis == d3.select("#VisualizationType").node().value && OldDataSet == d3.select("#DataSetSelect").node().value ) Redraw();
 			Globals.IgnoreHashChange = false;
 		}
 	};

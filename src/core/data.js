@@ -2,12 +2,12 @@
   		   SetEventHandlers, FilterAttributeSelectHandlerNoRedraw, VisualizationChangeHandlerNoRedraw, window,
 		   Redraw, FileReader, moment, console*/
 
-function ProcessLoadedData(Data,FirstLoad) {
+function ProcessLoadedData(Data,Hash) {
 	
 
 	Globals.Data = CleanupData(Data);
 	CatalogData(Data);
-	PopulateForm();
+	PopulateForm(Hash);
 	Redraw();
 	
 }
