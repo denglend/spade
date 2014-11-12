@@ -48,15 +48,13 @@ function DataSetPanelReset(Div,Visualization) {
 
 //This function is called when the user choose a new option in the DataSet drop down box
 function DataSetChangeEvent() {
-	var Panel = MatchObjectInArray(SpadeSettings.Panels,"name","DataSetPanel");
+	var Panel = GetPanel("DataSetPanel");
 	
 	if (Panel.Options.CurDataSet !== "" ) {	// Don't mess with the hash if this is during startup
 		Globals.IgnoreHashChange = true;
 		var CurHashVal = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash;
 		if (CurHashVal === undefined) {
-			document.location.hash = SpadeSettings.Panels.indexOf(GetPanel("DataSetPanel"))+"="+this.value;
-
-
+			CurHashVal = SpadeSettings.Panels.indexOf(GetPanel("DataSetPanel"))+"="+this.value;
 		}
 		else {
 			//These next couple of lines are a big hack and need to be rewritten
@@ -78,7 +76,7 @@ function DataSetChangeEvent() {
 		d3.csv(DataSet.path+DataSet.file+".csv", function(d) {
 			DownloadingModal.close();
 			var ProcessingModel = LoadingModal("Processing...");
-			window.setTimeout(function() {ProcessLoadedData(d,false);ProcessingModel.close();},10);
+			window.setTimeout(function() {ProcessLoadedData(d,CurHashVal);ProcessingModel.close();},10);
 
 		});
 			
