@@ -65,6 +65,10 @@ function DataSetChangeEvent() {
 
 		}
 	}
+	else if (MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash !== undefined) {
+		document.location.hash = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash;
+		Globals.IgnoreHashChange = true;
+	}
 	Panel.Options.CurDataSet = this.value;
 	if (Panel.Options.CurDataSet === "Upload Data Set") {
 		//Time to prompt the user to load a new file
