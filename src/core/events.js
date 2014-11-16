@@ -3,6 +3,7 @@
 function SetEventHandlers() {
 	
 	d3.select(window).on('resize', Redraw); 
+	d3.select("#DataSetInfoCloseDiv").on("click",function() {d3.select("#DataSetInfoDiv").transition().style("opacity",0).remove();});
 	window.onhashchange = function() {
 		if (Globals.IgnoreHashChange) {
 			Globals.IgnoreHashChange = false;

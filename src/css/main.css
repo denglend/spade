@@ -169,3 +169,40 @@ select {
 }
 
 
+#TitleDiv {
+	text-align:center;
+	font-size:1.5em;
+}
+#DescriptionDiv {
+	width: 60%;
+	margin: 0 auto;
+}
+
+#DataSetInfoDiv {
+	border-radius: 5px;
+	background-color: #f8f8f8;
+	border: 1px #BBB solid;
+	padding:3px;
+	margin-bottom:10px;
+	position:relative;
+}
+
+#DataSetInfoCloseDiv {
+	position:absolute;
+	right:3px;
+	top:3px;
+	border-radius: 5px;
+	cursor:pointer;
+	width:15px;
+	padding:3px;
+	font-size:15px;
+	background-color:#EEE;
+	text-align: center;
+	font-weight: bolder;
+	padding-top: 1px;
+}
+
+
+#DataSetInfoCloseDiv::before {
+	content: "x";
+}

@@ -16,6 +16,12 @@ var SpadeSettings = {
 			type:"csv"
 		},
 		{
+			name: "Tornadoes 1950-2013",
+			path:"../sampledata/",
+			file:"tornadoes_1950_2013",
+			type:"csv"
+		},
+		{
 			name: "DC Building Permits",
 			path:"../sampledata/",
 			file:"dc_building_permits",
