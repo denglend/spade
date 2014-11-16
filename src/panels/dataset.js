@@ -49,10 +49,10 @@ function DataSetPanelReset(Div,Visualization) {
 //This function is called when the user choose a new option in the DataSet drop down box
 function DataSetChangeEvent() {
 	var Panel = GetPanel("DataSetPanel");
-	
+	var CurHashVal, VisIndex;
 	if (Panel.Options.CurDataSet !== "" ) {	// Don't mess with the hash if this is during startup
 		Globals.IgnoreHashChange = true;
-		var CurHashVal = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash;
+		CurHashVal = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash;
 		if (CurHashVal === undefined) {
 			CurHashVal = SpadeSettings.Panels.indexOf(GetPanel("DataSetPanel"))+"="+this.value;
 		}
@@ -60,14 +60,19 @@ function DataSetChangeEvent() {
 			//These next couple of lines are a big hack and need to be rewritten
 			SpadeSettings.Panels.forEach(function(d) {d.Active = false;});	//Should this move out of the if block?  Necessary at all?
 			document.location.hash = CurHashVal;
-			var VisIndex = SpadeSettings.Panels.indexOf(GetPanel("VisualizationPanel"));
+			VisIndex = SpadeSettings.Panels.indexOf(GetPanel("VisualizationPanel"));
 			GetPanel("VisualizationPanel").Options.CurVisualization = ParseHash()[VisIndex] === undefined ? 0 : ParseHash()[VisIndex];
 
 		}
 	}
 	else if (MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash !== undefined) {
-		document.location.hash = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash;
+		//document.location.hash = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash;
 		Globals.IgnoreHashChange = true;
+		CurHashVal = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash;
+		document.location.hash = CurHashVal;
+		VisIndex = SpadeSettings.Panels.indexOf(GetPanel("VisualizationPanel"));
+		GetPanel("VisualizationPanel").Options.CurVisualization = ParseHash()[VisIndex] === undefined ? 0 : ParseHash()[VisIndex];
+
 	}
 	Panel.Options.CurDataSet = this.value;
 	if (Panel.Options.CurDataSet === "Upload Data Set") {
