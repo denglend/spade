@@ -35,7 +35,7 @@ function DataSetPanelUpdateFromHash(Hash) {
 function DataSetPanelReset(Div,Visualization) {
 	var Panel = MatchObjectInArray(SpadeSettings.Panels,"name","DataSetPanel");
 	var CurDataSet = Panel.Options.CurDataSet !== "" ? Panel.Options.CurDataSet : SpadeSettings.DataSets[0].name;
-	
+
 	Div.append(CreateSelectElement).select("select").attr("id","DataSetSelect").on("change",DataSetChangeEvent);
 	Div.select("#DataSetSelect")
 		.selectAll("option")
@@ -74,6 +74,7 @@ function DataSetChangeEvent() {
 		GetPanel("VisualizationPanel").Options.CurVisualization = ParseHash()[VisIndex] === undefined ? 0 : ParseHash()[VisIndex];
 
 	}
+	d3.selectAll("#DataSetInfoDiv").style("display","none");
 	Panel.Options.CurDataSet = this.value;
 	if (Panel.Options.CurDataSet === "Upload Data Set") {
 		//Time to prompt the user to load a new file
@@ -81,6 +82,15 @@ function DataSetChangeEvent() {
 	}
 	else {
 		var DataSet = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value);
+		if (DataSet.title !== undefined) {
+			d3.select("#TitleDiv").html(DataSet.title);
+			d3.select("#DataSetInfoDiv").style("display","block");
+		}
+		if (DataSet.body !== undefined) {
+			d3.select("#DescriptionDiv").html(DataSet.body).style("display","block");
+			d3.select("#DataSetInfoDiv").style("display","block");
+		}
+
 		var DownloadingModal = LoadingModal("Downloading...");
 		d3.csv(DataSet.path+DataSet.file+".csv", function(d) {
 			DownloadingModal.close();
