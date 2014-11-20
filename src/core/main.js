@@ -23,6 +23,11 @@ function Initialize() {
 	var HashNum = SpadeSettings.Panels.indexOf(GetPanel("DataSetPanel"));
 	var HashObj = ParseHash();
 	var DefaultFileName = SpadeSettings.DataSets[0].name;
+	if (HashObj[HashNum] == "Upload Data Set") {
+		HashObj[HashNum] = undefined;
+		document.location.hash = "";
+		Globals.IgnoreHashChange = true;
+	}
 	SetEventHandlers();
 	GetPanel("DataSetPanel").Functions.UpdatePanelFromHash(HashObj[HashNum] === undefined? DefaultFileName : HashObj[HashNum]);
 }
