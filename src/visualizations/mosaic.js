@@ -82,7 +82,7 @@ function MosaicDraw(Data,SelectVals,MainDiv) {
 		MosaicArray.push(MosaicColData);
 	}
 	MainDiv.selectAll("*").remove();									//Remove the table we built upon from DOM
-	MainDiv.style("width",document.getElementById("MainDiv").scrollWidth/HorizSizeDivisor-40+"px");
+	MainDiv.style("width",document.getElementById("MainDiv").clientWidth/HorizSizeDivisor-40+"px");
 	var TotalHeight = window.innerHeight-d3.select("#HeaderDiv").node().offsetHeight-60;
 	MainDiv.style("height",TotalHeight/VertSizeDivisor+"px");
 	MainDiv.style("padding","2px");
