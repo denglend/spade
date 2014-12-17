@@ -125,6 +125,7 @@ function CorrelDraw(Data,SelectVals,MainDiv) {
 		.attr("width",CanvasWidth)
 		.attr("height",CanvasHeight)
 		.on("click",CorrelCanvasClickHandler)
+		.datum(SelectVals)
 		.node();
 	var Context = Canvas.getContext("2d");
 
@@ -375,6 +376,7 @@ function CorrelExportImage() {
 function CorrelCanvasClickHandler(d,i) {
 	var XVal = 	event.offsetX;
 	var XCol = Math.floor(XVal / CorrelGlobals.BoxSize);
+	var SelectVals = d3.select(this).datum();
 	if (XCol >= Globals.CurAttributes.length) {
 		console.log("Click Canceled b/c too far right: "+XVal+" "+XCol);
 		return;
@@ -396,6 +398,8 @@ function CorrelCanvasClickHandler(d,i) {
 		return;
 	}
 	console.log("Clicked on "+XCol+","+YCol);
+	//Last step to fix #36 - Change CorrelGlobals.FilteredData to a function call to calculate data from SelectVals
+	//Not ready for prime time yetCorrelPlotZoom(CorrelGlobals.FilteredData,SelectVals,XCol,YCol);
 	CorrelPlotZoom(CorrelGlobals.FilteredData,CorrelGlobals.SelectVals,XCol,YCol);
 }
 

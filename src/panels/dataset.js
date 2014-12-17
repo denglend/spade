@@ -65,7 +65,7 @@ function DataSetChangeEvent() {
 
 		}
 	}
-	else if (MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash !== undefined) {
+	else if (MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash !== undefined) {		//If there's a default hash...
 		//document.location.hash = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash;
 		Globals.IgnoreHashChange = true;
 		CurHashVal = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value).defaulthash;
@@ -78,9 +78,10 @@ function DataSetChangeEvent() {
 	Panel.Options.CurDataSet = this.value;
 	if (Panel.Options.CurDataSet === "Upload Data Set") {
 		//Time to prompt the user to load a new file
+		document.location.hash = CurHashVal;
 		document.getElementById("FileSelectInput").click();
 	}
-	else {
+	else {		//If using an existing data file...
 		var DataSet = MatchObjectInArray(SpadeSettings.DataSets,"name",this.value);
 		if (DataSet.title !== undefined) {
 			d3.select("#TitleDiv").html(DataSet.title);
